@@ -36,8 +36,8 @@ function getProduct(request, response) {
 		} 
 		else {
 			var person = result[0];
-			response.status(200).json(result[0]);
 			response.send(result[0]);
+			response.status(200).json(result[0]);
 		}
 	});		
 }
