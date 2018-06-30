@@ -4,11 +4,14 @@ var app = express();
 const { Pool } = require("pg");
 const connectionString = process.env.DATABASE_URL || "postgres://eli:password@localhost:5432/walmart";
 const pool  = new Pool({connectionString: connectionString});
+var bodyParser = require('body-parser');
+
 
 app.set("port", (process.env.PORT || 5000));
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(express.static(__dirname + "/public"))
+app.use(bodyParser.json()); // support json encoded bodies
 
 app.get("/", function(req, res) {
 	res.send("hi");
@@ -23,11 +26,24 @@ app.get("/getProduct", function(req, res) {
 })
 
 app.get("/getWalmartProduct", function(req, res) {
-	res.send("This will return a Walmart Product");
+	var id = req.query.id;
+	res.send("This will return a Walmart Product with id: " + id);
 })
 
 app.post("/logIn", function(req, res) {
 	logIn(req, res);
+})
+
+app.post("/getWishList", function(req, res) {
+	getWishList(req, res);
+})
+
+app.post("/signUp", function(req, res) {
+	signUp(req, res);
+})
+
+app.put("/modifyPassword", function(req, res) {
+	modifyPassword(req, res);
 })
 
 app.listen(app.get("port"), function(){
@@ -70,9 +86,24 @@ function getProductFromDb(id, callback) {
 }
 
 function logIn(request, response) {
-	response.send("This will return if success on login");
+	var username = request.body.username;	
+	response.send("This will return success on login. Here is the username: " + username);
 }
 
+function signUp(request, response) {
+	var username = request.body.username;	
+	response.send("This will return successful signup. Here is the username: " + username);
+}
+
+function modifyPassword(request, response) {
+	var username = request.body.username;	
+	response.send("This will return successful on updating password. Here is the username: " + username);
+}
+
+function getWishList(request, response) {
+	var userId = request.body.userId;	
+	response.send("This will return success when user's wish list is queried and returned. Here is the username: " + userId);
+}
 
 function getProductNames(request, response) {
 	getProductNamesFromDb(function(error, result) {
