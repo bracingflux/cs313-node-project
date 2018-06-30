@@ -86,13 +86,15 @@ function getProductFromDb(id, callback) {
 }
 
 function logIn(request, response) {
-	var username = request.body.username;	
-	response.send("This will return success on login. Here is the username: " + username);
+	var userId = 2;
+	// var username = request.body.username;	
+	response.send("This will return success on login. Here is the userId: " + userId);
 }
 
 function signUp(request, response) {
-	var username = request.body.username;	
-	response.send("This will return successful signup. Here is the username: " + username);
+	var userId = 2;
+	// var username = request.body.username;	
+	response.send("This will return successful signup. Here is the username: " + userId);
 }
 
 function modifyPassword(request, response) {
@@ -101,7 +103,8 @@ function modifyPassword(request, response) {
 }
 
 function getWishList(request, response) {
-	var userId = request.body.userId;	
+	var userId = 2;
+	// var userId = request.body.userId;	
 	response.send("This will return success when user's wish list is queried and returned. Here is the username: " + userId);
 }
 
