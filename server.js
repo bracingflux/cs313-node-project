@@ -15,6 +15,10 @@ app.get("/", function(req, res) {
 	res.send("hi");
 });
 
+app.get("/getProductNames", function(req, res) {
+	getProductNames(req, res);
+})
+
 app.get("/getProduct", function(req, res) {
 	getProduct(req, res);
 })
@@ -72,3 +76,31 @@ function logIn(request, response) {
 	response.send("This will return if success on login");
 }
 
+
+function getProductNames(request, response) {
+	getProductNamesFromDb(function(error, result) {
+
+		if (error || result == null) {
+			response.status(500).json({success: false, data: error});
+		} 
+		else {
+			response.status(200).json(result);
+		}
+	});		
+}
+
+function getProductNamesFromDb(callback) {
+	var sql = "SELECT name, id FROM products";
+
+	pool.query(sql, function(err, result) {
+		if (err) {
+			console.log("Error in query: ")
+			console.log(err);
+			callback(err, null);
+		}
+
+		console.log("Found result: " + JSON.stringify(result.rows));
+		callback(null, result.rows);
+	});
+
+}
