@@ -3,7 +3,6 @@ var app = express();
 
 const { Pool } = require("pg");
 const connectionString = process.env.DATABASE_URL || "postgres://eli:password@localhost:5432/walmart";
-console.log("Connecting to database to... " + connectionString);
 const pool  = new Pool({connectionString: connectionString});
 
 app.set("port", (process.env.PORT || 5000));
@@ -54,7 +53,6 @@ function getProduct(request, response) {
 }
 
 function getProductFromDb(id, callback) {
-	console.log("Getting person from DB with id: " + id);
 	var sql = "SELECT name, price, description FROM products WHERE id = $1::int";
 
 	var params = [id];
@@ -66,7 +64,6 @@ function getProductFromDb(id, callback) {
 			callback(err, null);
 		}
 
-		console.log("Found result: " + JSON.stringify(result.rows));
 		callback(null, result.rows);
 	});
 
@@ -99,7 +96,6 @@ function getProductNamesFromDb(callback) {
 			callback(err, null);
 		}
 
-		console.log("Found result: " + JSON.stringify(result.rows));
 		callback(null, result.rows);
 	});
 
