@@ -19,6 +19,14 @@ app.get("/getProduct", function(req, res) {
 	getProduct(req, res);
 })
 
+app.get("/getWalmartProduct", function(req, res) {
+	res.send("This will return a Walmart Product");
+})
+
+app.post("/logIn", function(req, res) {
+	logIn(req, res);
+})
+
 app.listen(app.get("port"), function(){
 	console.log("Now listening for connection on port: " + app.get("port"));
 });
@@ -36,7 +44,6 @@ function getProduct(request, response) {
 		} 
 		else {
 			var person = result[0];
-			// response.send(result[0]);
 			response.status(200).json(result[0]);
 		}
 	});		
@@ -59,5 +66,9 @@ function getProductFromDb(id, callback) {
 		callback(null, result.rows);
 	});
 
+}
+
+function logIn(request, response) {
+	response.send("This will return if success on login");
 }
 
