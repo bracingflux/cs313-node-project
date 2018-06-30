@@ -24,7 +24,7 @@ $(document).ready(function (){
       	url: "/getProduct?id=" + id,              
   		type: "get",
       success: function (res) {
-          $('#product').text("Name: " + res.name + "\nPrice: " + res.price + "\nDescription: " + res.description);
+          $('#product').text("Name: " + res.name + "\nPrice: $" + res.price + "\nDescription: " + res.description);
         },
         complete: function () {
         	// alert("complete");
