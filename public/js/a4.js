@@ -40,11 +40,12 @@ $('#productName').change(function() {
  console.log(name);
  $.ajax({
 
-    url : "http://api.walmartlabs.com/v1/items/42608125?format=json&apiKey=nsgjenyj5zedvuz746ugac4k",                       
+    // url : "http://api.walmartlabs.com/v1/items/42608125?format=json&apiKey=nsgjenyj5zedvuz746ugac4k",
+    url: "/getWalmartProduct?name=" + name,                       
     // url: "http://api.walmartlabs.com/v1/search?apiKey=nsgjenyj5zedvuz746ugac4k&lsPublisherId=eliandrew&query=" + name,     /*http://api.walmartlabs.com/v1/search?apiKey=nsgjenyj5zedvuz746ugac4k&lsPublisherId=eliandrew&query=*/         
      type: "get",
       success: function (res) {
-        console.log("Name of first item: " + res.items[0].name);
+        console.log("Name of first item: " + res/*res.items[0].name*/);
         var names = "";
         var $target = $("body").find('#productInfo');
         // $("#productInfo").empty(); // empty previous search results
@@ -53,7 +54,7 @@ $('#productName').change(function() {
           console.log(res.Search[i].Title);
           titles = titles + "<span>" + res.Search[i].Title + "</span>" + "<button class='details' id='" + res.Search[i].imdbID + "'>Details</button><br>";
         }*/
-        titles = "<p>" + res.items[0].name + "</p>";
+        titles = "<p>" + res + "</p>";
         $target.append(titles); 
 
         },

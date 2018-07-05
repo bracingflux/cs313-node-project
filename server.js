@@ -26,8 +26,38 @@ app.get("/getProduct", function(req, res) {
 })
 
 app.get("/getWalmartProduct", function(req, res) {
-	var id = req.query.id;
-	res.send("This will return a Walmart Product with id: " + id);
+	var name = req.query.name;
+	console.log("This is the query name: " + name);
+	var xmlhttp;
+    var url = "http://api.walmartlabs.com/v1/search?apiKey=nsgjenyj5zedvuz746ugac4k&lsPublisherId=eliandrew&query=" + name;     /*http://api.walmartlabs.com/v1/search?apiKey=nsgjenyj5zedvuz746ugac4k&lsPublisherId=eliandrew&query=*/         
+
+
+	xmlhttp = new XMLHttpRequest();
+
+	xmlhttp.onreadystatechange = function(){
+		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			res.status(200).json(this.responseText.items[0].name);
+		}
+	}
+	xmlhttp.open("GET", url , true);
+	xmlhttp.send();
+	// $.ajax({
+
+ //    url: "http://api.walmartlabs.com/v1/search?apiKey=nsgjenyj5zedvuz746ugac4k&lsPublisherId=eliandrew&query=" + name,     /*http://api.walmartlabs.com/v1/search?apiKey=nsgjenyj5zedvuz746ugac4k&lsPublisherId=eliandrew&query=*/         
+	// type: "get",
+	// success: function (response) {
+	// 	console.log("Query success!");
+	// 	console.log("Name of first item: " + response.items[0].name);
+	// 	res.status(200).json(response.items[0].name);
+	// },
+	// complete: function () {
+	//    alert("complete");
+	// },
+	// fail: function(xhr, textStatus, errorThrown){
+	// alert('request failed: ' + errorThrown);
+	// }           
+ //   });
+	// res.send("This will return a Walmart Product with id: " + id);
 })
 
 app.post("/logIn", function(req, res) {
