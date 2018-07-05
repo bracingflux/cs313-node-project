@@ -38,8 +38,10 @@ $(document).ready(function (){
 $('#productName').change(function() {
  var name = $("#productName").val();
  console.log(name);
- $.ajax({                       
-     url: "http://api.walmartlabs.com/v1/search?apiKey=nsgjenyj5zedvuz746ugac4k&lsPublisherId=eliandrew&query=" + name,     /*http://api.walmartlabs.com/v1/search?apiKey=nsgjenyj5zedvuz746ugac4k&lsPublisherId=eliandrew&query=*/         
+ $.ajax({
+
+    url : "http://api.walmartlabs.com/v1/items/42608125?format=json&apiKey=nsgjenyj5zedvuz746ugac4k",                       
+    // url: "http://api.walmartlabs.com/v1/search?apiKey=nsgjenyj5zedvuz746ugac4k&lsPublisherId=eliandrew&query=" + name,     /*http://api.walmartlabs.com/v1/search?apiKey=nsgjenyj5zedvuz746ugac4k&lsPublisherId=eliandrew&query=*/         
      type: "get",
       success: function (res) {
         console.log("Name of first item: " + res.items[0].name);
