@@ -42,7 +42,7 @@ $('#productName').change(function() {
      url: "http://api.walmartlabs.com/v1/search?apiKey=nsgjenyj5zedvuz746ugac4k&lsPublisherId=eliandrew&query=" + name,     /*http://api.walmartlabs.com/v1/search?apiKey=nsgjenyj5zedvuz746ugac4k&lsPublisherId=eliandrew&query=*/         
      type: "get",
       success: function (res) {
-        console.log(res);
+        console.log("Name of first item: " + res.items[0].name);
         var names = "";
         var $target = $("body").find('#productInfo');
         // $("#productInfo").empty(); // empty previous search results
