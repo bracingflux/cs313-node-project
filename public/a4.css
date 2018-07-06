@@ -42,7 +42,8 @@ body,html {
 
 .center {
 	align-content: center;
-	margin: 3% 37%;
+	margin: 3% 32%;
+	max-width: 300px;
 }
 
 

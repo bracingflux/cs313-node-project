@@ -153,7 +153,11 @@ $(document).on('click', ".detailsBtn", function(){
         var $target = $("body").find('#extendedProductInfo');        
         var info = "";
           var product = JSON.parse(res);
-          info = info + "<div class='itemSpan2'><h2 class='productH2'>" + product.name + "</h2><img class='center' src='" + product.mediumImage + "'><p>" + product.shortDescription + "<br><br><strong>$" + 
+          var pDescription = document.createElement("p");
+          pDescription.innerHTML = product.shortDescription;
+          var text = pDescription.textContent || pDescription.innerText || "";
+
+          info = info + "<div class='itemSpan2'><h2 class='productH2'>" + product.name + "</h2><img class='center' src='" + product.mediumImage + "'><p>" + text + "<br><strong>$" + 
           product.salePrice + "</strong><br><br>" + product.stock + "</p></div>";
 
         $target.append(info);
