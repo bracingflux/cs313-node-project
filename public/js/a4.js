@@ -154,7 +154,7 @@ $(document).on('click', ".detailsBtn", function(){
         var info = "";
         $("#extendedProductInfo").empty();
           var product = JSON.parse(res);
-          info = info + "<div class='itemSpan2'><img class='center' src='" + product.mediumImage + "'><p>" + product.shortDescription + "<br><br><strong>$" + 
+          info = info + "<div class='itemSpan2'><h2>" + product.name + "</h2><img class='center' src='" + product.mediumImage + "'><p>" + product.shortDescription + "<br><br><strong>$" + 
           product.salePrice + "</strong><br><br>" + product.stock + "</p></div>";
 
         $target.append(info);
