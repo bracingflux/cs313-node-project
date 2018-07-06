@@ -37,26 +37,45 @@ $(document).ready(function (){
 
 $('#productName').change(function() {
  var name = $("#productName").val();
- console.log(name);
  $.ajax({
 
-    // url : "http://api.walmartlabs.com/v1/items/42608125?format=json&apiKey=nsgjenyj5zedvuz746ugac4k",
     url: "/getWalmartProduct?name=" + name,                       
-    // url: "http://api.walmartlabs.com/v1/search?apiKey=nsgjenyj5zedvuz746ugac4k&lsPublisherId=eliandrew&query=" + name,     /*http://api.walmartlabs.com/v1/search?apiKey=nsgjenyj5zedvuz746ugac4k&lsPublisherId=eliandrew&query=*/         
      type: "get",
       success: function (res) {
-        console.log("Name of first item: " + res/*res.items[0].name*/);
         var names = "";
+        var names2 = ""; 
+        var names3 = "";       
         var $target = $("body").find('#productInfo');
-        // $("#productInfo").empty(); // empty previous search results
-        
-        /*for (var i = 0; i < res.Search.length; i++) {
-          console.log(res.Search[i].Title);
-          titles = titles + "<span>" + res.Search[i].Title + "</span>" + "<button class='details' id='" + res.Search[i].imdbID + "'>Details</button><br>";
-        }*/
-        titles = "<p>" + res + "</p>";
-        $target.append(titles); 
+        var $target2 = $("body").find('#productInfo2');
+        var $target3 = $("body").find('#productInfo3');
 
+        $("#productInfo").empty(); // empty previous search results
+        $("#productInfo2").empty(); // empty previous search results
+        $("#productInfo3").empty(); // empty previous search results
+
+        var products = JSON.parse(res);
+        var totalWithCommas = addCommas(products.totalResults);
+        $("#totalItems").text("Total results found: " + totalWithCommas);
+        var modNum = 0;
+        for (var i in products.items) {
+          modNum = i % 3;
+          console.log(modNum);
+          if (modNum == 0) {
+            names = names + "<div class='itemSpan'><img class='itemPhoto' src='" + products.items[i].thumbnailImage + "'><p>" 
+            + products.items[i].name + "<br>$" + products.items[i].salePrice + "</p></div>";
+          } else if (modNum == 1) {
+            names2 = names2 + "<div class='itemSpan'><img class='itemPhoto' src='" + products.items[i].thumbnailImage + "'><p>" 
+            + products.items[i].name + "<br>$" + products.items[i].salePrice + "</p></div>";
+          } else {
+            names3 = names3 + "<div class='itemSpan'><img class='itemPhoto' src='" + products.items[i].thumbnailImage + "'><p>" 
+            + products.items[i].name + "<br>$" + products.items[i].salePrice + "</p></div>";
+          }
+          
+        }
+        $target.append(names);
+        $target2.append(names2); 
+        $target3.append(names3); 
+        // console.log(res.items);
         },
         complete: function () {
            // alert("complete");
@@ -65,5 +84,12 @@ $('#productName').change(function() {
        alert('request failed: ' + errorThrown);
        }           
    });
-}) 
+})
+
 });
+
+function addCommas(x) {
+  var parts = x.toString().split(".");
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return parts.join(".");
+}

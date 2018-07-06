@@ -1,6 +1,9 @@
 var express = require("express");
 var app = express();
 
+var request = require('request');
+
+
 const { Pool } = require("pg");
 const connectionString = process.env.DATABASE_URL || "postgres://eli:password@localhost:5432/walmart";
 const pool  = new Pool({connectionString: connectionString});
@@ -25,40 +28,7 @@ app.get("/getProduct", function(req, res) {
 	getProduct(req, res);
 })
 
-app.get("/getWalmartProduct", function(req, res) {
-	var name = req.query.name;
-	console.log("This is the query name: " + name);
-	var xmlhttp;
-    var url = "http://api.walmartlabs.com/v1/search?apiKey=nsgjenyj5zedvuz746ugac4k&lsPublisherId=eliandrew&query=" + name;     /*http://api.walmartlabs.com/v1/search?apiKey=nsgjenyj5zedvuz746ugac4k&lsPublisherId=eliandrew&query=*/         
-
-
-	xmlhttp = new XMLHttpRequest();
-
-	xmlhttp.onreadystatechange = function(){
-		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-			res.status(200).json(this.responseText.items[0].name);
-		}
-	}
-	xmlhttp.open("GET", url , true);
-	xmlhttp.send();
-	// $.ajax({
-
- //    url: "http://api.walmartlabs.com/v1/search?apiKey=nsgjenyj5zedvuz746ugac4k&lsPublisherId=eliandrew&query=" + name,     /*http://api.walmartlabs.com/v1/search?apiKey=nsgjenyj5zedvuz746ugac4k&lsPublisherId=eliandrew&query=*/         
-	// type: "get",
-	// success: function (response) {
-	// 	console.log("Query success!");
-	// 	console.log("Name of first item: " + response.items[0].name);
-	// 	res.status(200).json(response.items[0].name);
-	// },
-	// complete: function () {
-	//    alert("complete");
-	// },
-	// fail: function(xhr, textStatus, errorThrown){
-	// alert('request failed: ' + errorThrown);
-	// }           
- //   });
-	// res.send("This will return a Walmart Product with id: " + id);
-})
+app.get("/getWalmartProduct", loadProduct)
 
 app.post("/logIn", function(req, res) {
 	logIn(req, res);
@@ -79,6 +49,30 @@ app.put("/modifyPassword", function(req, res) {
 app.listen(app.get("port"), function(){
 	console.log("Now listening for connection on port: " + app.get("port"));
 });
+
+
+function loadProduct(req, res) {
+	var name = req.query.name;
+    var url = "http://api.walmartlabs.com/v1/search?apiKey=nsgjenyj5zedvuz746ugac4k&lsPublisherId=eliandrew&numItems=20&query=" + name;     /*http://api.walmartlabs.com/v1/search?apiKey=nsgjenyj5zedvuz746ugac4k&lsPublisherId=eliandrew&query=*/         
+
+    performRequest(url, function(error, result) {
+    	if (!error && result.length >= 1) {
+    		res.status(200);
+    		res.send(result);
+    	}
+    	else {
+			res.status(500).json({success: false, data: error});
+    	}
+    })
+}
+
+function performRequest(url, callback) {
+	request(url, function (error, response, body) {
+	  if (!error && response.statusCode == 200) {
+		callback(null, body);
+	  }
+	});
+}
 
 
 /*
