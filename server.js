@@ -3,7 +3,6 @@ var app = express();
 
 var request = require('request');
 
-
 const { Pool } = require("pg");
 const connectionString = process.env.DATABASE_URL || "postgres://eli:password@localhost:5432/walmart";
 const pool  = new Pool({connectionString: connectionString});
@@ -28,6 +27,10 @@ app.get("/getProduct", function(req, res) {
 	getProduct(req, res);
 })
 
+app.get("/nextPage", nextprevPage)
+
+app.get("/previousPage", nextprevPage)
+
 app.get("/getWalmartProduct", loadProduct)
 
 app.post("/logIn", function(req, res) {
@@ -51,9 +54,27 @@ app.listen(app.get("port"), function(){
 });
 
 
+function nextprevPage(req, res) {
+	var queryString = req.query.queryString;
+	var pageIndex = req.query.pageIndex;
+	// var newIndex = parseInt(pageIndex) + 40;
+	// console.log("Inside server.js: queryString " + queryString + " pageIndex " + newIndex);
+    var url = "http://api.walmartlabs.com/v1/search?apiKey=nsgjenyj5zedvuz746ugac4k&lsPublisherId=eliandrew&numItems=21&query=" + queryString + "&start=" + pageIndex;
+
+    performRequest(url, function(error, result) {
+    	if (!error && result.length >= 1) {
+    		res.status(200);
+    		res.send(result);
+    	}
+    	else {
+			res.status(500).json({success: false, data: error});
+    	}
+    })
+}
+
 function loadProduct(req, res) {
 	var name = req.query.name;
-    var url = "http://api.walmartlabs.com/v1/search?apiKey=nsgjenyj5zedvuz746ugac4k&lsPublisherId=eliandrew&numItems=20&query=" + name;     /*http://api.walmartlabs.com/v1/search?apiKey=nsgjenyj5zedvuz746ugac4k&lsPublisherId=eliandrew&query=*/         
+    var url = "http://api.walmartlabs.com/v1/search?apiKey=nsgjenyj5zedvuz746ugac4k&lsPublisherId=eliandrew&numItems=21&query=" + name;     /*http://api.walmartlabs.com/v1/search?apiKey=nsgjenyj5zedvuz746ugac4k&lsPublisherId=eliandrew&query=*/         
 
     performRequest(url, function(error, result) {
     	if (!error && result.length >= 1) {
