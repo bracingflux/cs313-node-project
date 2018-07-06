@@ -5,33 +5,36 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script type="text/javascript" src="js/a4.js"></script>
-	<link rel="stylesheet" type="text/css" href="a4.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="a4.css">
 
 	<title>Products</title>
 </head>
 <body>
-	<h2>Please select a product:</h2>
-	<select id="products">
-		<option value="" selected disabled hidden>Choose here</option>
-	</select>
-	<p id="product"></p>
-	<label for="productName">Enter a product name:</label>
-	<input id="productName" type="text" name="productName">
-	<p id="totalItems"></p>
+	<div id="walmart-header">
+		<p id="titleHeader">Wal-Mart Query</p>
+		<input id="productName" type="text" placeholder="Enter an product name..." name="productName">
+		<p id="totalItems"></p>
+	</div>
+	
+	<div class="container">
+		<ul class="pager">
+		<li><a class="prevRef">Previous</a></li>
+		<li><a class="nextRef">Next</a></li>
+		</ul>
+	</div>
 	<div id="productInfo"></div>
 	<div id="productInfo2"></div>
 	<div id="productInfo3"></div>
-	<div class="nextPreviousButtons">
-		<a id="prevRef" class="previous">&laquo; Previous</a>
-		<a id="nextRef" class="next">Next &raquo;</a>
-	</div>
-	<!-- <div class="container">
+	<div class="container">
 		<ul class="pager">
-		<li><a href="#">Previous</a></li>
-		<li><a href="#">Next</a></li>
+		<li><a id="extraPrev" class="prevRef">Previous</a></li>
+		<li><a id="extraNext"class="nextRef">Next</a></li>
 		</ul>
-	</div> -->
+	</div>
+	<div class="footer">
+		<p>This content has been provided courtesy of walmart.com via their free api.</p>
+	</div>
 </body>
 </html>

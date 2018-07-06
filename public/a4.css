@@ -3,35 +3,53 @@
 }
 
 .itemPhoto {
-	/*max-width: 200px;*/
-	/*display: block;*/
 	max-width: 270px;
 	max-height: 135px;
 	width: auto;
 	height: auto;
+	margin-bottom: 3%;
+}
+
+body,html {
+	font-family: Verdana;
+	margin: 0;
+	padding: 0;
+}
+
+#titleHeader {
+	font-size: 2em;
+	color: white;
+	padding-top: 1%;
 }
 
 .itemSpan {
-	/*width: 100%;*/
 	border: 2px solid black;
 	border-radius: 2%;
 	margin: 4%;
 	padding: 3%;
 	height: 200px;
+	background-color: white;
 }
 
 .itemPhoto:hover {
-    transform: scale(1.5); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+    transform: scale(1.5);
 }
 
-.itemFull {
+div.footer {
+	background-color: #007dc6;
 	width: 100%;
+	text-align: center;
+	color: white;
+	margin: 0;
+	padding: 3.5%;
+	display: inline-block;
+	min-height: 40px;
 }
 
 #productInfo {
 	float: left;
 	width: 25%;
-	margin-left: 10%;
+	margin-left: 12.5%;
 	text-align: center;
 	align-items: center;
 }
@@ -51,36 +69,71 @@
 	align-items: center;
 }
 
-a {
-    text-decoration: none;
-    display: inline-block;
-    padding: 8px 16px;
+#walmart-header {
+	text-align: center;
+	align-content: center;
+	font-size: 1.2em;
+	background-color: #007dc6;
+	width: 100%;
+	margin: 0;
+	padding: 0;
 }
 
-a:hover {
-    background-color: #ddd;
-    color: black;
+#productName {
+	width: 250px;
+	margin: .75%;
+	background-color: #78b9e7;
+	color: white;
+	margin-bottom: 1.2%;
 }
 
-.previous {
-    background-color: #f1f1f1;
-    color: black;
-    float: left;
+.prevRef {
+	float: left;
+	margin-left: 14%;
 }
 
-.next {
-    background-color: #4CAF50;
+.nextRef {
+	float: right;
+	margin-right: 14%;
+}
+
+.prevRef:hover {
+	cursor: pointer;
+}
+
+.nextRef:hover {
+	cursor: pointer;
+}
+
+.container {
+	width: 100%;
+}
+
+#totalItems {
+	color: white;
+	padding-bottom: 1%;
+}
+
+#walmart-header {
+	text-align: center;
+	align-content: center;
+	font-size: 1.2em;
+	background-color: #007dc6;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
     color: white;
-    float: right;
+    opacity: 1; /* Firefox */
 }
 
-.round {
-    border-radius: 50%;
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: white;
 }
 
-.nextPreviousButtons {
-	width: 70%;
-	margin: 1% 15% 4% 15%;
-	clear: both;
+::-ms-input-placeholder { /* Microsoft Edge */
+    color: white;
 }
-

@@ -4,6 +4,11 @@ $(document).ready(function (){
   var queryPrev = "";
   var currentIndex = 0;
   var currentQuery = "";
+  var totalRes = 0;
+  $('.prevRef').hide();
+  $('.nextRef').hide();
+  $('#productName').focus();
+
 
     $.ajax({                   
     	url: "/getProductNames",
@@ -45,29 +50,29 @@ $('#productName').change(function() {
   var name = $("#productName").val();
   var url1 = "/getWalmartProduct?name=" + name;
 
-  addItems(url1);
+  addItems(url1, true);
 })
 
-$("#prevRef").click(function() {
+$(".prevRef").click(function() {
   var num = (parseInt(currentIndex));
   if (num > 20) {
     queryPrev = "/previousPage?queryString=" + currentQuery + "&pageIndex=" + (parseInt(currentIndex) - 20);
   } else {
     queryPrev = "/previousPage?queryString=" + currentQuery + "&pageIndex=" + 1;
   }
-  console.log(queryPrev);
-  addItems(queryPrev);
+  // console.log(queryPrev);
+  addItems(queryPrev, false);
 })
 
-$("#nextRef").click(function() {
+$(".nextRef").click(function() {
   currentIndex = parseInt(currentIndex) + 20;
   queryNext = "/nextPage?queryString=" + currentQuery + "&pageIndex=" + currentIndex;
-  console.log("Value: " + queryNext);
-  addItems(queryNext);
+  // console.log("Value: " + queryNext);
+  addItems(queryNext, false);
 })
 
 
-function addItems(url1) {
+function addItems(url1, isSearch) {
   $.ajax({
 
     url: url1,                       
@@ -88,23 +93,37 @@ function addItems(url1) {
         currentQuery = products.query;
         currentIndex = products.start;
 
-        var totalWithCommas = addCommas(products.totalResults);
-        $("#totalItems").text("Total results found: " + totalWithCommas);
+        if (isSearch) {
+          var totalWithCommas = addCommas(products.totalResults);
+          $("#totalItems").text("Total results found: " + totalWithCommas);
+        }
+        totalRes = products.totalResults;
+        
         var modNum = 0;
         for (var i in products.items) {
+          var pName = products.items[i].name;
+          if (pName.length > 40) {
+            pName = pName.substring(0, 41) + "..";
+          }
           modNum = i % 3;
           if (modNum == 0) {
             names = names + "<div class='itemSpan'><img class='itemPhoto' src='" + products.items[i].thumbnailImage + "'><p>" 
-            + products.items[i].name + "<br><strong>$" + products.items[i].salePrice + "</strong></p></div>";
+            + pName + "<br><strong>$" + products.items[i].salePrice + "</strong></p></div>";
           } else if (modNum == 1) {
             names2 = names2 + "<div class='itemSpan'><img class='itemPhoto' src='" + products.items[i].thumbnailImage + "'><p>" 
-            + products.items[i].name + "<br><strong>$" + products.items[i].salePrice + "</strong></p></div>";
+            + pName + "<br><strong>$" + products.items[i].salePrice + "</strong></p></div>";
           } else {
             names3 = names3 + "<div class='itemSpan'><img class='itemPhoto' src='" + products.items[i].thumbnailImage + "'><p>" 
-            + products.items[i].name + "<br><strong>$" + products.items[i].salePrice + "</strong></p></div>";
+            + pName + "<br><strong>$" + products.items[i].salePrice + "</strong></p></div>";
           }
           
         }
+        $('.prevRef').show();
+        $('.nextRef').show();
+        if (parseInt(totalRes) <= 20) {
+          $('#extraNext').hide();
+          $('#extraPrev').hide();
+        } 
         $target.append(names);
         $target2.append(names2); 
         $target3.append(names3); 
