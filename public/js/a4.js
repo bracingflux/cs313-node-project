@@ -143,8 +143,8 @@ function addItems(url1, isSearch) {
 
 $(document).on('click', ".detailsBtn", function(){
     var itemId = $(this).attr('id');
-    console.log("itemId: " + itemId);
-    $('#id01').show();
+    $("#extendedProductInfo").empty();
+    $('#id01').show();    
     $.ajax({                       
       url: "/getWalmartProductById?itemId=" + itemId,              
       type: "get",
@@ -152,9 +152,8 @@ $(document).on('click', ".detailsBtn", function(){
         console.log("success!");
         var $target = $("body").find('#extendedProductInfo');        
         var info = "";
-        $("#extendedProductInfo").empty();
           var product = JSON.parse(res);
-          info = info + "<div class='itemSpan2'><h2>" + product.name + "</h2><img class='center' src='" + product.mediumImage + "'><p>" + product.shortDescription + "<br><br><strong>$" + 
+          info = info + "<div class='itemSpan2'><h2 class='productH2'>" + product.name + "</h2><img class='center' src='" + product.mediumImage + "'><p>" + product.shortDescription + "<br><br><strong>$" + 
           product.salePrice + "</strong><br><br>" + product.stock + "</p></div>";
 
         $target.append(info);
