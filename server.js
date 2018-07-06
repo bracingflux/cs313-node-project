@@ -33,6 +33,8 @@ app.get("/previousPage", nextprevPage)
 
 app.get("/getWalmartProduct", loadProduct)
 
+app.get("/getWalmartProductById", productById)
+
 app.post("/logIn", function(req, res) {
 	logIn(req, res);
 })
@@ -60,6 +62,21 @@ function nextprevPage(req, res) {
 	// var newIndex = parseInt(pageIndex) + 40;
 	// console.log("Inside server.js: queryString " + queryString + " pageIndex " + newIndex);
     var url = "http://api.walmartlabs.com/v1/search?apiKey=nsgjenyj5zedvuz746ugac4k&lsPublisherId=eliandrew&numItems=21&query=" + queryString + "&start=" + pageIndex;
+
+    performRequest(url, function(error, result) {
+    	if (!error && result.length >= 1) {
+    		res.status(200);
+    		res.send(result);
+    	}
+    	else {
+			res.status(500).json({success: false, data: error});
+    	}
+    })
+}
+
+function productById(req, res) {
+	var itemId = req.query.itemId;
+	var url = "http://api.walmartlabs.com/v1/items/" + itemId + "?apiKey=nsgjenyj5zedvuz746ugac4k&lsPublisherId=eliandrew&format=json"
 
     performRequest(url, function(error, result) {
     	if (!error && result.length >= 1) {

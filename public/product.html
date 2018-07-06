@@ -4,9 +4,17 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	<script type="text/javascript" src="js/a4.js"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+	<!-- From previous assignment -->
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 	<link rel="stylesheet" type="text/css" href="a4.css">
 
 	<title>Products</title>
@@ -17,6 +25,33 @@
 		<input id="productName" type="text" placeholder="Enter an product name..." name="productName">
 		<p id="totalItems"></p>
 	</div>
+
+	<!-- sign-in window -->
+	<div id="id01" class="modal">
+	  <form class="modal-content animate" id="login_form">
+	    <div class="imgcontainer">
+	      <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+	    </div>
+
+	    <div class="container-1" id="extendedProductInfo">
+	      <!-- <label for="uname"><b>Username</b></label>
+	      <input type="text" class="input1" placeholder="Enter Username" name="uname" required>
+	      <label for="psw"><b>Password</b></label>
+	      <input type="password" class="input1" placeholder="Enter Password" name="psw" required>	        
+	      <button type="submit" class="login">Login</button> -->	      
+	    </div>
+
+	    <div class="container-1" id="cont-1">
+	      <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+	      <!-- button type="button" name="logOff" id="signOffbtn" class='cancelbtn'>Log off</button>
+	      <button type="button" name="signUp" id="registerbtn" class='cancelbtn'>Sign Up</button>   -->    
+	    </div>	    
+	  </form>
+	</div>
+
+
+
+
 	
 	<div class="container">
 		<ul class="pager">

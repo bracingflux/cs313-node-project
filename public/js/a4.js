@@ -108,13 +108,13 @@ function addItems(url1, isSearch) {
           modNum = i % 3;
           if (modNum == 0) {
             names = names + "<div class='itemSpan'><img class='itemPhoto' src='" + products.items[i].thumbnailImage + "'><p>" 
-            + pName + "<br><strong>$" + products.items[i].salePrice + "</strong></p></div>";
+            + pName + "<br><strong>$" + products.items[i].salePrice + "</strong></p><button class='detailsBtn' id='" + products.items[i].itemId + "'>More Details</button></div>";
           } else if (modNum == 1) {
             names2 = names2 + "<div class='itemSpan'><img class='itemPhoto' src='" + products.items[i].thumbnailImage + "'><p>" 
-            + pName + "<br><strong>$" + products.items[i].salePrice + "</strong></p></div>";
+            + pName + "<br><strong>$" + products.items[i].salePrice + "</strong></p><button class='detailsBtn' id='" + products.items[i].itemId + "'>More Details</button></div>";
           } else {
             names3 = names3 + "<div class='itemSpan'><img class='itemPhoto' src='" + products.items[i].thumbnailImage + "'><p>" 
-            + pName + "<br><strong>$" + products.items[i].salePrice + "</strong></p></div>";
+            + pName + "<br><strong>$" + products.items[i].salePrice + "</strong></p><button class='detailsBtn' id='" + products.items[i].itemId + "'>More Details</button></div>";
           }
           
         }
@@ -139,6 +139,37 @@ function addItems(url1, isSearch) {
 }
 
 });
+
+
+$(document).on('click', ".detailsBtn", function(){
+    var itemId = $(this).attr('id');
+    console.log("itemId: " + itemId);
+    $('#id01').show();
+    $.ajax({                       
+      url: "/getWalmartProductById?itemId=" + itemId,              
+      type: "get",
+      success: function (res) {
+        console.log("success!");
+        var $target = $("body").find('#extendedProductInfo');        
+        var info = "";
+        $("#extendedProductInfo").empty();
+          var product = JSON.parse(res);
+          info = info + "<div class='itemSpan2'><img class='center' src='" + product.mediumImage + "'><p>" + product.shortDescription + "<br><br><strong>$" + 
+          product.salePrice + "</strong><br><br>" + product.stock + "</p></div>";
+
+        $target.append(info);
+
+        },
+        complete: function () {
+          // alert("complete");
+        },
+        fail: function(xhr, textStatus, errorThrown){
+       alert('request failed: ' + errorThrown);
+       }           
+   });
+ 
+})
+
 
 function addCommas(x) {
   var parts = x.toString().split(".");
