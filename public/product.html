@@ -26,34 +26,72 @@
 		<p id="totalItems"></p>
 	</div>
 
-	<!-- sign-in window -->
+	<!-- product details -->
 	<div id="id01" class="modal">
-	  <form class="modal-content animate" id="login_form">
+	  <form class="modal-content animate">
 	    <div class="imgcontainer">
 	      <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
 	    </div>
-
-	    <div class="container-1" id="extendedProductInfo">
-	      <!-- <label for="uname"><b>Username</b></label>
-	      <input type="text" class="input1" placeholder="Enter Username" name="uname" required>
-	      <label for="psw"><b>Password</b></label>
-	      <input type="password" class="input1" placeholder="Enter Password" name="psw" required>	        
-	      <button type="submit" class="login">Login</button> -->	      
+	    <div class="container-1" id="extendedProductInfo">	    	      
 	    </div>
-
 	    <div class="container-1" id="cont-1">
 	      <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
-	      <!-- button type="button" name="logOff" id="signOffbtn" class='cancelbtn'>Log off</button>
-	      <button type="button" name="signUp" id="registerbtn" class='cancelbtn'>Sign Up</button>   -->    
 	    </div>	    
 	  </form>
 	</div>
 
+	<!-- sign-in window -->
+	<div id="id02" class="modal modal2">
+	  <form class="modal-content animate" id="login_form">
+	    <div class="imgcontainer">
+	      <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
+	    </div>
 
+	    <div class="container">
+	      <label for="uname"><b>Username</b></label>
+	      <input type="text" class="input1" id="username1" placeholder="Enter Username" name="uname" required>
+	      <label for="psw"><b>Password</b></label>
+	      <input type="password" class="input1" id="password1" placeholder="Enter Password" name="psw" required>	        
+	      <button type="button" class="login" id="testClick">Login</button>	      
+	    </div>
 
+	    <div class="container" id="cont-1">
+	      <button type="button" onclick="document.getElementById('id02').style.display='none'" class="cancelbtn">Cancel</button>
+	      <button type="button" name="logOff" id="signOffbtn" class='cancelbtn'>Log off</button>    	    
+	      <button type="button" name="signUp" onclick="showSignUp()" id="registerbtn" class='cancelbtn'>Sign Up</button>
+	    </div>	    
+	  </form>
+	</div>
+
+	<!-- sign-up window -->	
+	<div id="id03" class="modal">
+	  <form class="modal-content animate" id="signup_form">
+	    <div class="imgcontainer">
+	      <span onclick="document.getElementById('id03').style.display='none'" class="close" title="Close Modal">&times;</span>
+	    </div>
+
+	    <div class="container">
+	      <label for="username"><b>Username</b></label>
+	      <input type="text" class="input1" id="userName2" placeholder="Enter Username" name="username" required>
+	      <label for="password"><b>Password</b></label>
+	      <input type="password" class="input1" placeholder="Enter Password" id="pass1" name="password" required>
+	      <label for="verify_password"><b>Verifty Password</b></label>
+	      <input type="password" class="input1" placeholder="Verify Password" id="pass2" onblur="verifyPassword()" name="verifty_password" required>
+	      <label class="hidden1" id="passVerify"><b>Passwords do not match!</b></label>
+	      <label for="dName"><b>Display Name</b></label>
+	      <input type="text" class="input1" placeholder="Enter Display Name" name="displayName" required>	        
+	      <button type="submit" class="login">Sign Up</button>	      
+	    </div>
+
+	    <div class="container" id="cont-1">
+	      <button type="button" onclick="document.getElementById('id03').style.display='none'" class="cancelbtn">Cancel</button>
+	      <button type="button" name="signUp" onclick="showSignIn()" id="registerbtn" class='cancelbtn'>Sign In</button>	      
+	    </div>	    
+	  </form>
+	</div>
 
 	
-	<div class="container">
+	<div class="container2">
 		<ul class="pager">
 		<li><a class="prevRef">Previous</a></li>
 		<li><a class="nextRef">Next</a></li>
@@ -62,7 +100,7 @@
 	<div id="productInfo"></div>
 	<div id="productInfo2"></div>
 	<div id="productInfo3"></div>
-	<div class="container">
+	<div class="container2">
 		<ul class="pager">
 		<li><a id="extraPrev" class="prevRef">Previous</a></li>
 		<li><a id="extraNext"class="nextRef">Next</a></li>

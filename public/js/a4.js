@@ -140,6 +140,37 @@ function addItems(url1, isSearch) {
 
 });
 
+$(document).on('click', '#testClick', function() {
+  // alert("monkey");
+  // $("#login_form").preventDefault();
+  // e.stopImmediatePropagation();        
+  var $form = $("#login_form");
+  var $inputs = $form.find("input, select, button, textarea");
+  var serializedData = $form.serialize();
+  console.log(serializedData);    
+  $.ajax({  
+    type: 'post',
+    url: '/logIn',
+    data: serializedData,
+    success: function (response) {
+      if (response.includes("-1")) {
+        alert("Username or password incorrect. Please try again");
+      }
+      else {
+        $('#id02').hide();
+        $('.input1').val('');
+        console.log(response);
+        // $('#current_user').text(response);                    
+        // alert(response);
+      }
+      // $('#loaded_rb').text(response);
+    },
+    complete: function () {
+      // $('.loader').hide();
+    }             
+  });
+})
+
 
 $(document).on('click', ".detailsBtn", function(){
     var itemId = $(this).attr('id');
@@ -170,9 +201,43 @@ $(document).on('click', ".detailsBtn", function(){
        alert('request failed: ' + errorThrown);
        }           
    });
- 
+
+
 })
 
+/*$(function () {*/
+
+  /*$('#login_form').on('submit', function (e) {
+    console.log("Got here!!");
+
+    // e.preventDefault();
+    // e.stopImmediatePropagation();        
+    var $form = $(this);
+    var $inputs = $form.find("input, select, button, textarea");
+    var serializedData = $form.serialize();
+    
+    $.ajax({  
+      type: 'post',
+      url: '/logIn',
+      data: serializedData,
+      success: function (response) {
+        if (response.includes("-1")) {
+          alert("Username or password incorrect. Please try again");
+        }
+        else {
+          $('#id02').hide();
+          $('.input1').val('');
+          // $('#current_user').text(response);                    
+          // alert(response);
+        }
+        // $('#loaded_rb').text(response);
+      },
+      complete: function () {
+        // $('.loader').hide();
+      }             
+    });
+  });*/
+/*});*/
 
 function addCommas(x) {
   var parts = x.toString().split(".");
@@ -180,4 +245,34 @@ function addCommas(x) {
   return parts.join(".");
 }
 
+function showSignUp() {
+  document.getElementById('id03').style.display='block';
+  document.getElementById('id02').style.display='none';
+}
+
+function showSignIn() {
+  document.getElementById('id02').style.display='block';
+  document.getElementById('id03').style.display='none';  
+}
+
+function verifyPassword() {
+  var pass1 = document.getElementById('pass1').value;
+  var pass2 = document.getElementById('pass2').value;
+  if (pass1 && pass2) {
+    var result = pass1.localeCompare(pass2);
+    if (result == 0) {
+      document.getElementById('passVerify').style.display = 'none';
+      return true;
+    }
+    else {
+      document.getElementById('passVerify').style.display = 'block';
+      return false;      
+    }
+  }
+  else {
+    document.getElementById('passVerify').style.display = 'block';    
+    return false;
+  }
+  
+}
 

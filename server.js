@@ -2,6 +2,7 @@ var express = require("express");
 var app = express();
 
 var request = require('request');
+var session = require('express-session');
 
 const { Pool } = require("pg");
 const connectionString = process.env.DATABASE_URL || "postgres://eli:password@localhost:5432/walmart";
@@ -14,10 +15,15 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(express.static(__dirname + "/public"))
 app.use(bodyParser.json()); // support json encoded bodies
+app.use(session({
+		secret: 'walmart-app',
+		resave: false,
+		saveUninitialized: true
+	}));
 
-app.get("/", function(req, res) {
-	res.send("hi");
-});
+app.get('/', (req, res) => res.sendFile(__dirname+'/public/product.html'))
+
+
 
 app.get("/getProductNames", function(req, res) {
 	getProductNames(req, res);
@@ -148,9 +154,24 @@ function getProductFromDb(id, callback) {
 }
 
 function logIn(request, response) {
-	var userId = 2;
-	// var username = request.body.username;	
-	response.send("This will return success on login. Here is the userId: " + userId);
+	var username = request.body.uname;
+	var password = request.body.psw;
+	console.log("Username: " + username + " Password: " + password);
+	response.status(200).send("Success!");
+
+	/*if(username === 'admin' && password === 'password') {
+		console.log("success username = ", username)
+		console.log("success password = ", password)
+		if(!req.session.username){
+			req.session.username = username;
+			console.log("session username = ", req.session.username)
+		}
+		res.status(200).json({success: true});
+	} else {
+		res.status(500).json({success: false});
+		console.log("failed username = ", username)
+		console.log("failed password = ", password)
+	}*/
 }
 
 function signUp(request, response) {

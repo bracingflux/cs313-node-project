@@ -121,8 +121,13 @@ div.footer {
 	cursor: pointer;
 }
 
-.container {
+.container2 {
 	width: 100%;
+}
+
+.container {
+    padding: 16px;
+    width: 100%;
 }
 
 #totalItems {
@@ -141,16 +146,16 @@ div.footer {
 }
 
 
-::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+#productName::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
     color: white;
     opacity: 1; /* Firefox */
 }
 
-:-ms-input-placeholder { /* Internet Explorer 10-11 */
+#productName:-ms-input-placeholder { /* Internet Explorer 10-11 */
     color: white;
 }
 
-::-ms-input-placeholder { /* Microsoft Edge */
+#productName::-ms-input-placeholder { /* Microsoft Edge */
     color: white;
 }
 
@@ -168,6 +173,10 @@ div.footer {
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
     padding-top: 60px;
+}
+
+.modal2 {
+	display: inline-block;
 }
 
 /* Modal Content/Box */
@@ -218,6 +227,16 @@ div.footer {
     cursor: pointer;
 }
 
+@media screen and (max-width: 300px) {
+    span.psw {
+       display: block;
+       float: none;
+    }
+    .cancelbtn {
+       width: 100%;
+    }
+}
+
 #signOffbtn {
     background-color: #ea12e7;
     float: right;
@@ -237,6 +256,34 @@ div.footer {
 
 .productH2 {
 	text-align: center;
+}
+
+/* Set a style for all buttons */
+button.login {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+label{ 
+	display:block; 
+}
+
+.input1 {
+	display: block;
+	margin-bottom:12px; 
+	width:95%; 
+	padding: .4em; 
+}
+
+.hidden1 {
+	display: none;
+	text-align: center;
+	color: red;
 }
 
 
