@@ -154,6 +154,19 @@ function getProductFromDb(id, callback) {
 
 }
 
+function callDatabase(url, params, callback) {
+	pool.query(url, params, function(err, result) {
+		if (err) {
+			console.log("Error in db query: ");
+			console.log(err);
+			callback(err, null);
+		}
+		else {
+			callback(null, result);
+		}
+	});
+}
+
 function logIn(request, response) {
 	var username = request.body.uname;
 	var password = request.body.psw;
@@ -167,11 +180,26 @@ function logIn(request, response) {
 function signUp(request, response) {
 	var username = request.body.username;
 	var password = request.body.password;
-	console.log("Username: " + username + " Password: " + password);
+	var displayName = request.body.displayName;
+	console.log("Username: " + username + " Password: " + password + " Display name: " + displayName);
 	bcrypt.hash(password, 10, function(err, hash) {
 		console.log("Sign up hashed password: " + hash);
-	});
-	response.status(200).send("It was successful!");
+		/*var post = {username}*/
+		// var params = username + " , " + hash + " , " + displayName;
+		var params = [username, hash, displayName];
+		console.log("PARAMS: " + params);
+		var sql = "INSERT INTO users (username, password, display_name) VALUES ($1::varchar(100), $2::varchar(100), $3::varchar(100));";
+		callDatabase(sql, params, function(error, result) {
+			if (error || result == null /*|| result.length != 1*/) {
+				response.status(500).json({success: false, data: error});
+			} 
+			else {
+				// var person = result[0];
+				response.status(200).json({success: true});/*json(result[0]);*/
+			}
+		})
+	});	
+	// response.status(200).send("It was successful!");
 }
 
 function modifyPassword(request, response) {

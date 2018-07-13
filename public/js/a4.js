@@ -143,7 +143,12 @@ function addItems(url1, isSearch) {
 $(document).on('click', '#logInBtn', function() {
   // alert("monkey");
   // $("#login_form").preventDefault();
-  // e.stopImmediatePropagation();        
+  // e.stopImmediatePropagation();
+  var verify = verfiyInputs("username1", "password1");
+  if (!verify) {
+    console.log("No username or password provided.");
+    return;
+  }        
   var $form = $("#login_form");
   var $inputs = $form.find("input, select, button, textarea");
   var serializedData = $form.serialize();
@@ -177,7 +182,7 @@ $(document).on('click', '#signUpBtn', function() {
   // e.stopImmediatePropagation();
   var verify = verifyPassword(true); // pass true since we are in sign up form
   var verify2 = verifyDisplayName(true);
-  var verify3 = verfiyInputs();
+  var verify3 = verfiyInputs("username2", "pass1");
   if (!verify || !verify2 || !verify3) {
     console.log("passwords did not match or no display name...");
     return;
@@ -191,16 +196,16 @@ $(document).on('click', '#signUpBtn', function() {
     url: '/signUp',
     data: serializedData,
     success: function (response) {
-      if (response.includes("-1")) {
+      /*if (response.includes("-1")) {
         alert("Username or password incorrect. Please try again");
-      }
-      else {
+      }*/
+      // else {
         $('#id03').hide();
         $('.input1').val('');
         console.log(response);
         // $('#current_user').text(response);                    
         // alert(response);
-      }
+      // }
       // $('#loaded_rb').text(response);
     },
     complete: function () {
@@ -338,15 +343,15 @@ function verifyDisplayName(onSubmit) {
   }
 }
 
-function verfiyInputs() {
-  var user = document.getElementById('username2').value;
-  var pass = document.getElementById('pass1').value;
+function verfiyInputs(username, password) {
+  var user = document.getElementById(username).value;
+  var pass = document.getElementById(password).value;
 
   if (user && pass) {
     return true;
   }
   else {
-    document.getElementById('username2').focus();
+    document.getElementById(username).focus();
     return false;
   }
 }
