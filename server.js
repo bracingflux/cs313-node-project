@@ -101,7 +101,7 @@ function loadProduct(req, res) {
     var url = "http://api.walmartlabs.com/v1/search?apiKey=nsgjenyj5zedvuz746ugac4k&lsPublisherId=eliandrew&numItems=21&query=" + name;     /*http://api.walmartlabs.com/v1/search?apiKey=nsgjenyj5zedvuz746ugac4k&lsPublisherId=eliandrew&query=*/         
 
     performRequest(url, function(error, result) {
-    	if (!error && result.length >= 1) {
+    	if (!error /*&& result.length >= 1*/) {
     		res.status(200);
     		res.send(result);
     	}

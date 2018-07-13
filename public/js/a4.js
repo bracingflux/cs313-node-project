@@ -73,8 +73,61 @@ $(".nextRef").click(function() {
 
 
 function addItems(url1, isSearch) {
-  $.ajax({
+  var names = "";
+        var names2 = ""; 
+        var names3 = "";       
+        var $target = $("body").find('#productInfo');
+        var $target2 = $("body").find('#productInfo2');
+        var $target3 = $("body").find('#productInfo3');
 
+        $("#productInfo").empty(); // empty previous search results
+        $("#productInfo2").empty(); // empty previous search results
+        $("#productInfo3").empty(); // empty previous search results
+        var modNum = 0;
+        for (var i = 0; i < 21; ++i) {          
+          modNum = i % 3;
+          if (modNum == 0) {
+            names = names.concat("<div class='itemSpan'>");
+            for (var j = 0; j < 10; ++j) {
+              var divLine = "<div class='line'></div>";
+              names = names.concat(divLine);
+            }
+            names = names.concat("</div>");
+          } else if (modNum == 1) {
+            names2 = names2.concat("<div class='itemSpan'>");
+            for (var j = 0; j < 10; ++j) {
+              var divLine = "<div class='line'></div>";
+              names2 = names2.concat(divLine);
+            }
+            names2 = names2.concat("</div>");
+          } else {
+            names3 = names3.concat("<div class='itemSpan'>");
+            for (var j = 0; j < 10; ++j) {
+              var divLine = "<div class='line'></div>";
+              names3 = names3.concat(divLine);
+            }
+            names3 = names3.concat("</div>");
+          }
+          
+        }
+        $target.append(names);
+        $target2.append(names2); 
+        $target3.append(names3); 
+  $.ajax({
+    xhr: function(){
+       var xhr = new window.XMLHttpRequest();
+       
+     //Download progress
+       xhr.addEventListener("progress", function(evt){
+         if (evt.lengthComputable) {
+           var percentComplete = evt.loaded / evt.total;
+
+         //Do something with download progress
+           console.log(percentComplete);
+         }
+       }, false);
+       return xhr;
+     },
     url: url1,                       
      type: "get",
       success: function (res) {
@@ -242,8 +295,8 @@ $(document).on('click', ".detailsBtn", function(){
        }           
    });
 
-
 })
+
 
 /*$(function () {*/
 

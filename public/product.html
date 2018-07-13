@@ -22,6 +22,7 @@
 <body>
 	<div id="walmart-header">
 		<p id="titleHeader">Wal-Mart Query</p>
+	  	<button type="button" name="signIn" onclick="showSignIn()" id="signingIn" class='cancelbtn'>Sign In</button>	      
 		<input id="productName" type="text" placeholder="Enter an product name..." name="productName">
 		<p id="totalItems"></p>
 	</div>
@@ -41,7 +42,7 @@
 	</div>
 
 	<!-- sign-in window -->
-	<div id="id02" class="modal modal2">
+	<div id="id02" class="modal">
 	  <form class="modal-content animate" id="login_form">
 	    <div class="imgcontainer">
 	      <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
