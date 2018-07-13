@@ -52,7 +52,7 @@
 	      <input type="text" class="input1" id="username1" placeholder="Enter Username" name="uname" required>
 	      <label for="psw"><b>Password</b></label>
 	      <input type="password" class="input1" id="password1" placeholder="Enter Password" name="psw" required>	        
-	      <button type="button" class="login" id="testClick">Login</button>	      
+	      <button type="button" class="login" id="logInBtn">Login</button>	      
 	    </div>
 
 	    <div class="container" id="cont-1">
@@ -72,15 +72,16 @@
 
 	    <div class="container">
 	      <label for="username"><b>Username</b></label>
-	      <input type="text" class="input1" id="userName2" placeholder="Enter Username" name="username" required>
+	      <input type="text" class="input1" id="username2" placeholder="Enter Username" name="username" required>
 	      <label for="password"><b>Password</b></label>
 	      <input type="password" class="input1" placeholder="Enter Password" id="pass1" name="password" required>
 	      <label for="verify_password"><b>Verifty Password</b></label>
-	      <input type="password" class="input1" placeholder="Verify Password" id="pass2" onblur="verifyPassword()" name="verifty_password" required>
+	      <input type="password" class="input1" placeholder="Verify Password" id="pass2" onblur="verifyPassword(false)" name="verifty_password" required>
 	      <label class="hidden1" id="passVerify"><b>Passwords do not match!</b></label>
 	      <label for="dName"><b>Display Name</b></label>
-	      <input type="text" class="input1" placeholder="Enter Display Name" name="displayName" required>	        
-	      <button type="submit" class="login">Sign Up</button>	      
+	      <input type="text" class="input1" placeholder="Enter Display Name" id="displayname1" onblur="verifyDisplayName(false)" name="displayName" required>
+	      <label class="hidden1" id="displayVerify"><b>Please enter a display name</b></label>
+	      <button type="button" class="login" id="signUpBtn">Sign Up</button>	      
 	    </div>
 
 	    <div class="container" id="cont-1">

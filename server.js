@@ -3,6 +3,7 @@ var app = express();
 
 var request = require('request');
 var session = require('express-session');
+var bcrypt = require('bcrypt');
 
 const { Pool } = require("pg");
 const connectionString = process.env.DATABASE_URL || "postgres://eli:password@localhost:5432/walmart";
@@ -157,27 +158,20 @@ function logIn(request, response) {
 	var username = request.body.uname;
 	var password = request.body.psw;
 	console.log("Username: " + username + " Password: " + password);
+	bcrypt.hash(password, 10, function(err, hash) {
+		console.log("Hashed password: " + hash);
+	});
 	response.status(200).send("Success!");
-
-	/*if(username === 'admin' && password === 'password') {
-		console.log("success username = ", username)
-		console.log("success password = ", password)
-		if(!req.session.username){
-			req.session.username = username;
-			console.log("session username = ", req.session.username)
-		}
-		res.status(200).json({success: true});
-	} else {
-		res.status(500).json({success: false});
-		console.log("failed username = ", username)
-		console.log("failed password = ", password)
-	}*/
 }
 
 function signUp(request, response) {
-	var userId = 2;
-	// var username = request.body.username;	
-	response.send("This will return successful signup. Here is the username: " + userId);
+	var username = request.body.username;
+	var password = request.body.password;
+	console.log("Username: " + username + " Password: " + password);
+	bcrypt.hash(password, 10, function(err, hash) {
+		console.log("Sign up hashed password: " + hash);
+	});
+	response.status(200).send("It was successful!");
 }
 
 function modifyPassword(request, response) {

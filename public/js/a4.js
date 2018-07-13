@@ -140,7 +140,7 @@ function addItems(url1, isSearch) {
 
 });
 
-$(document).on('click', '#testClick', function() {
+$(document).on('click', '#logInBtn', function() {
   // alert("monkey");
   // $("#login_form").preventDefault();
   // e.stopImmediatePropagation();        
@@ -158,6 +158,44 @@ $(document).on('click', '#testClick', function() {
       }
       else {
         $('#id02').hide();
+        $('.input1').val('');
+        console.log(response);
+        // $('#current_user').text(response);                    
+        // alert(response);
+      }
+      // $('#loaded_rb').text(response);
+    },
+    complete: function () {
+      // $('.loader').hide();
+    }             
+  });
+})
+
+$(document).on('click', '#signUpBtn', function() {
+  // alert("monkey");
+  // $("#login_form").preventDefault();
+  // e.stopImmediatePropagation();
+  var verify = verifyPassword(true); // pass true since we are in sign up form
+  var verify2 = verifyDisplayName(true);
+  var verify3 = verfiyInputs();
+  if (!verify || !verify2 || !verify3) {
+    console.log("passwords did not match or no display name...");
+    return;
+  }        
+  var $form = $("#signup_form");
+  var $inputs = $form.find("input, select, button, textarea");
+  var serializedData = $form.serialize();
+  console.log(serializedData);    
+  $.ajax({  
+    type: 'post',
+    url: '/signUp',
+    data: serializedData,
+    success: function (response) {
+      if (response.includes("-1")) {
+        alert("Username or password incorrect. Please try again");
+      }
+      else {
+        $('#id03').hide();
         $('.input1').val('');
         console.log(response);
         // $('#current_user').text(response);                    
@@ -248,16 +286,19 @@ function addCommas(x) {
 function showSignUp() {
   document.getElementById('id03').style.display='block';
   document.getElementById('id02').style.display='none';
+  document.getElementById('username2').focus();  
 }
 
 function showSignIn() {
   document.getElementById('id02').style.display='block';
-  document.getElementById('id03').style.display='none';  
+  document.getElementById('id03').style.display='none';
+  document.getElementById('username1').focus();  
 }
 
-function verifyPassword() {
+function verifyPassword(onSubmit) {
   var pass1 = document.getElementById('pass1').value;
   var pass2 = document.getElementById('pass2').value;
+
   if (pass1 && pass2) {
     var result = pass1.localeCompare(pass2);
     if (result == 0) {
@@ -266,13 +307,47 @@ function verifyPassword() {
     }
     else {
       document.getElementById('passVerify').style.display = 'block';
+      if (onSubmit) {
+        document.getElementById('pass2').focus();
+      }
       return false;      
     }
   }
   else {
-    document.getElementById('passVerify').style.display = 'block';    
+    document.getElementById('passVerify').style.display = 'block';
+    if (onSubmit) {
+      document.getElementById('pass2').focus();
+    }
     return false;
   }
   
+}
+
+function verifyDisplayName(onSubmit) {
+  var displayName = document.getElementById('displayname1').value;
+  if (displayName) {
+    document.getElementById('displayVerify').style.display = 'none';
+    return true;
+  }
+  else {
+    document.getElementById('displayVerify').style.display = 'block';
+    if (onSubmit) {
+      document.getElementById('displayname1').focus();
+    }
+    return false;
+  }
+}
+
+function verfiyInputs() {
+  var user = document.getElementById('username2').value;
+  var pass = document.getElementById('pass1').value;
+
+  if (user && pass) {
+    return true;
+  }
+  else {
+    document.getElementById('username2').focus();
+    return false;
+  }
 }
 
