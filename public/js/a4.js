@@ -89,21 +89,26 @@ function addItems(url1, isSearch) {
           if (modNum == 0) {
             names = names.concat("<div class='itemSpan'>");
             for (var j = 0; j < 10; ++j) {
-              var divLine = "<div class='line'></div>";
+              var width = Math.floor((Math.random() * 70) + 20);
+              var divLine = "<div class='line' style='width:" + width + "%'></div>";
               names = names.concat(divLine);
             }
             names = names.concat("</div>");
           } else if (modNum == 1) {
             names2 = names2.concat("<div class='itemSpan'>");
             for (var j = 0; j < 10; ++j) {
-              var divLine = "<div class='line'></div>";
+              var width = Math.floor((Math.random() * 70) + 20);
+              var divLine = "<div class='line' style='width:" + width + "%'></div>";
+              // var divLine = "<div class='line'></div>";
               names2 = names2.concat(divLine);
             }
             names2 = names2.concat("</div>");
           } else {
             names3 = names3.concat("<div class='itemSpan'>");
             for (var j = 0; j < 10; ++j) {
-              var divLine = "<div class='line'></div>";
+              var width = Math.floor((Math.random() * 70) + 20);
+              var divLine = "<div class='line' style='width:" + width + "%'></div>";
+              // var divLine = "<div class='line'></div>";
               names3 = names3.concat(divLine);
             }
             names3 = names3.concat("</div>");
@@ -112,7 +117,8 @@ function addItems(url1, isSearch) {
         }
         $target.append(names);
         $target2.append(names2); 
-        $target3.append(names3); 
+        $target3.append(names3);
+
   $.ajax({
     xhr: function(){
        var xhr = new window.XMLHttpRequest();
@@ -246,17 +252,9 @@ $(document).on('click', '#signUpBtn', function() {
     url: '/signUp',
     data: serializedData,
     success: function (response) {
-      /*if (response.includes("-1")) {
-        alert("Username or password incorrect. Please try again");
-      }*/
-      // else {
-        $('#id03').hide();
-        $('.input1').val('');
-        console.log(response);
-        // $('#current_user').text(response);                    
-        // alert(response);
-      // }
-      // $('#loaded_rb').text(response);
+      $('#id03').hide();
+      $('.input1').val('');
+      console.log(response);
     },
     complete: function () {
       // $('.loader').hide();
@@ -266,13 +264,24 @@ $(document).on('click', '#signUpBtn', function() {
 
 
 $(document).on('click', ".detailsBtn", function(){
-    var itemId = $(this).attr('id');
     $("#extendedProductInfo").empty();
+    var $target1 = $("body").find('#extendedProductInfo');        
+    var info1 = "<div class='itemSpan' style='border: none;'>";
+    for (var j = 0; j < 10; ++j) {
+      // var divLine = "<div class='line'></div>";
+      var width = Math.floor((Math.random() * 70) + 20);
+      var divLine = "<div class='line' style='width:" + width + "%'></div>";
+      info1 = info1.concat(divLine);
+    }
+    info1 = info1.concat("</div>")
+    $target1.append(info1);
+    var itemId = $(this).attr('id');
     $('#id01').show();    
     $.ajax({                       
       url: "/getWalmartProductById?itemId=" + itemId,              
       type: "get",
       success: function (res) {
+        $("#extendedProductInfo").empty();
         console.log("success!");
         var $target = $("body").find('#extendedProductInfo');        
         var info = "";
@@ -281,7 +290,7 @@ $(document).on('click', ".detailsBtn", function(){
           pDescription.innerHTML = product.shortDescription;
           var text = pDescription.textContent || pDescription.innerText || "";
 
-          info = info + "<div class='itemSpan2'><h2 class='productH2'>" + product.name + "</h2><img class='center' src='" + product.mediumImage + "'><p>" + text + "<br><strong>$" + 
+          info = info + "<div class='itemSpan2'><h2 class='productH2'>" + product.name + "</h2><img class='center' src='" + product.mediumImage + "'><p>" + text + "<br><br><strong>$" + 
           product.salePrice + "</strong><br><br>" + product.stock + "</p></div>";
 
         $target.append(info);
@@ -296,41 +305,6 @@ $(document).on('click', ".detailsBtn", function(){
    });
 
 })
-
-
-/*$(function () {*/
-
-  /*$('#login_form').on('submit', function (e) {
-    console.log("Got here!!");
-
-    // e.preventDefault();
-    // e.stopImmediatePropagation();        
-    var $form = $(this);
-    var $inputs = $form.find("input, select, button, textarea");
-    var serializedData = $form.serialize();
-    
-    $.ajax({  
-      type: 'post',
-      url: '/logIn',
-      data: serializedData,
-      success: function (response) {
-        if (response.includes("-1")) {
-          alert("Username or password incorrect. Please try again");
-        }
-        else {
-          $('#id02').hide();
-          $('.input1').val('');
-          // $('#current_user').text(response);                    
-          // alert(response);
-        }
-        // $('#loaded_rb').text(response);
-      },
-      complete: function () {
-        // $('.loader').hide();
-      }             
-    });
-  });*/
-/*});*/
 
 function addCommas(x) {
   var parts = x.toString().split(".");
