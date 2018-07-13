@@ -158,17 +158,14 @@ $(document).on('click', '#logInBtn', function() {
     url: '/logIn',
     data: serializedData,
     success: function (response) {
-      if (response.includes("-1")) {
-        alert("Username or password incorrect. Please try again");
-      }
-      else {
-        $('#id02').hide();
-        $('.input1').val('');
-        console.log(response);
-        // $('#current_user').text(response);                    
-        // alert(response);
-      }
-      // $('#loaded_rb').text(response);
+      $('#id02').hide();
+      $('.input1').val('');
+      console.log(response.username);
+      $("#logInFailure").hide();
+    },
+    error: function(xhr, textStatus, errorThrown){
+      $("#logInFailure").show();
+       // alert('Username or password is incorrect. Please try again.');
     },
     complete: function () {
       // $('.loader').hide();

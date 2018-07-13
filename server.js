@@ -171,10 +171,32 @@ function logIn(request, response) {
 	var username = request.body.uname;
 	var password = request.body.psw;
 	console.log("Username: " + username + " Password: " + password);
-	bcrypt.hash(password, 10, function(err, hash) {
-		console.log("Hashed password: " + hash);
-	});
-	response.status(200).send("Success!");
+	
+	var sql = "SELECT username, password FROM users WHERE username = $1::varchar(100)";
+
+	var params = [username];
+
+	callDatabase(sql, params, function(error, result) {
+		if (error || result.rows == null || result.rows.length != 1) {
+			response.status(401).json({success: false});
+		} 
+		else {
+			var hash = result.rows[0].password;
+			bcrypt.compare(password, hash, function(err, res) {
+			    if (err) {
+			    	console.log("There was a problem.");
+			    }
+			    else {
+			    	if (res == true) {
+			    		response.status(200).json(result.rows[0]);
+			    	}
+			    	else {
+			    		response.status(401).json({success: false});
+			    	}
+			    }
+			});
+		}
+	})
 }
 
 function signUp(request, response) {
@@ -184,8 +206,6 @@ function signUp(request, response) {
 	console.log("Username: " + username + " Password: " + password + " Display name: " + displayName);
 	bcrypt.hash(password, 10, function(err, hash) {
 		console.log("Sign up hashed password: " + hash);
-		/*var post = {username}*/
-		// var params = username + " , " + hash + " , " + displayName;
 		var params = [username, hash, displayName];
 		console.log("PARAMS: " + params);
 		var sql = "INSERT INTO users (username, password, display_name) VALUES ($1::varchar(100), $2::varchar(100), $3::varchar(100));";
@@ -194,8 +214,7 @@ function signUp(request, response) {
 				response.status(500).json({success: false, data: error});
 			} 
 			else {
-				// var person = result[0];
-				response.status(200).json({success: true});/*json(result[0]);*/
+				response.status(200).json({success: true});
 			}
 		})
 	});	
