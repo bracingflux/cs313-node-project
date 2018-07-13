@@ -97,10 +97,10 @@ div.footer {
 
 #productName {
 	width: 250px;
-	margin: .75%;
+	margin: .75% .75% 0 .75%;
 	background-color: #78b9e7;
 	color: white;
-	margin-bottom: 1.2%;
+	float: left;
 }
 
 .prevRef {
@@ -133,6 +133,7 @@ div.footer {
 #totalItems {
 	color: white;
 	padding-bottom: 1%;
+	margin-right: 1%;
 }
 
 #walmart-header {
@@ -248,9 +249,28 @@ div.footer {
     float: right;    
 }
 
-#signingIn {
-    background-color: #6396ef;
+.divLeft {
+	width: 42%;
+	background-color: #007dc6;
+	float: left;
+	min-height: 80px;
+	margin: 0;
+}
+
+.divRight {
+	width: 58%;
+	background-color: #007dc6;
+	float: right;
+	align-content: left;
+	min-height: 80px;
+	margin: 0;
+}
+#signingIn {    
+    background-color: #76c043;
+    /*float: left;*/
     float: left;
+    padding: 8px 12px;
+    margin-left: 2%;
     /*float: right;    */
 }
 
@@ -272,7 +292,7 @@ button.login {
     margin: 8px 0;
     border: none;
     cursor: pointer;
-    width: 100%;
+    width: 95%;
 }
 
 label{ 

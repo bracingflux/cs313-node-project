@@ -18,13 +18,16 @@
 	<link rel="stylesheet" type="text/css" href="a4.css">
 
 	<title>Products</title>
-	<p style="width: 23%;"></p>
 </head>
 <body>
 	<div id="walmart-header">
 		<p id="titleHeader">Wal-Mart Query</p>
-	  	<button type="button" name="signIn" onclick="showSignIn()" id="signingIn" class='cancelbtn'>Sign In</button>	      
-		<input id="productName" type="text" placeholder="Enter an product name..." name="productName">
+		<div class="divLeft">
+	  		<button type="button" name="signIn" onclick="showSignIn()" id="signingIn" class='cancelbtn btn btn-primary'>Sign In</button>	      
+		</div>
+		<div class="divRight">
+			<input id="productName" type="text" placeholder="Enter an product name..." name="productName">
+		</div>
 		<p id="totalItems"></p>
 	</div>
 
@@ -110,6 +113,7 @@
 		<li><a id="extraNext"class="nextRef">Next</a></li>
 		</ul>
 	</div>
+	<div id="random"></div>
 	<div class="footer">
 		<p>This content has been provided courtesy of walmart.com via their free api.</p>
 	</div>

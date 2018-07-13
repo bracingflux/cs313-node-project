@@ -172,7 +172,7 @@ function logIn(request, response) {
 	var password = request.body.psw;
 	console.log("Username: " + username + " Password: " + password);
 	
-	var sql = "SELECT username, password FROM users WHERE username = $1::varchar(100)";
+	var sql = "SELECT id, username, password FROM users WHERE username = $1::varchar(100)";
 
 	var params = [username];
 

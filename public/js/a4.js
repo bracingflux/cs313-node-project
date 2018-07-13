@@ -4,30 +4,11 @@ $(document).ready(function (){
   var queryPrev = "";
   var currentIndex = 0;
   var currentQuery = "";
+  var currentUser = "";
   var totalRes = 0;
   $('.prevRef').hide();
   $('.nextRef').hide();
   $('#productName').focus();
-
-
-    $.ajax({                   
-    	url: "/getProductNames",
-    	data: { get_param: 'value' }, 
-    	dataType: 'json',                   
-  		type: "get",
-  		success: function (data) { 
-  			var $dropdown = $("#products");
-        $.each(data, function(index, element) {
-        	$dropdown.append($("<option />").text(this.name).val(this.id));
-        });
-    },     
-        complete: function () {
-        	// alert("complete");
-        },
-        fail: function(xhr, textStatus, errorThrown){
-       alert('request failed: ' + errorThrown);
-       }           
-   });
 
    $('#products').on('change', function() {
 	var id = $("#products").val();
@@ -167,13 +148,13 @@ function addItems(url1, isSearch) {
           modNum = i % 3;
           if (modNum == 0) {
             names = names + "<div class='itemSpan'><img class='itemPhoto' src='" + products.items[i].thumbnailImage + "'><p>" 
-            + pName + "<br><strong>$" + products.items[i].salePrice + "</strong></p><button class='detailsBtn' id='" + products.items[i].itemId + "'>More Details</button></div>";
+            + pName + "<br><strong>$" + products.items[i].salePrice + "</strong></p><button class='detailsBtn btn btn-primary' id='" + products.items[i].itemId + "'>More Details</button></div>";
           } else if (modNum == 1) {
             names2 = names2 + "<div class='itemSpan'><img class='itemPhoto' src='" + products.items[i].thumbnailImage + "'><p>" 
-            + pName + "<br><strong>$" + products.items[i].salePrice + "</strong></p><button class='detailsBtn' id='" + products.items[i].itemId + "'>More Details</button></div>";
+            + pName + "<br><strong>$" + products.items[i].salePrice + "</strong></p><button class='detailsBtn btn btn-primary' id='" + products.items[i].itemId + "'>More Details</button></div>";
           } else {
             names3 = names3 + "<div class='itemSpan'><img class='itemPhoto' src='" + products.items[i].thumbnailImage + "'><p>" 
-            + pName + "<br><strong>$" + products.items[i].salePrice + "</strong></p><button class='detailsBtn' id='" + products.items[i].itemId + "'>More Details</button></div>";
+            + pName + "<br><strong>$" + products.items[i].salePrice + "</strong></p><button class='detailsBtn btn btn-primary' id='" + products.items[i].itemId + "'>More Details</button></div>";
           }
           
         }
@@ -220,6 +201,9 @@ $(document).on('click', '#logInBtn', function() {
       $('#id02').hide();
       $('.input1').val('');
       console.log(response.username);
+      currentUser = response.id;
+      $("#random").attr("id", response.id);
+      console.log("User's id: " + currentUser);
       $("#logInFailure").hide();
     },
     error: function(xhr, textStatus, errorThrown){
@@ -291,7 +275,15 @@ $(document).on('click', ".detailsBtn", function(){
           var text = pDescription.textContent || pDescription.innerText || "";
 
           info = info + "<div class='itemSpan2'><h2 class='productH2'>" + product.name + "</h2><img class='center' src='" + product.mediumImage + "'><p>" + text + "<br><br><strong>$" + 
-          product.salePrice + "</strong><br><br>" + product.stock + "</p></div>";
+          product.salePrice + "</strong><br><br>" + product.stock + "</p>";
+          var currentUserId = $('#random').attr('id');
+          if (currentUserId != "random") {
+            info = info + "<button class='wishBtn btn btn-primary'>Add to Wish List</button></div>";
+          } 
+          else {
+            // console.log("Length: " + currentUser.length);
+            info = info + "</div>";
+          }
 
         $target.append(info);
 
