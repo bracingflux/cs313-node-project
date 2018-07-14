@@ -25,8 +25,11 @@
 		<div class="divLeft">
 	  		<button type="button" name="signIn" onclick="showSignIn()" id="signingIn" class='cancelbtn btn btn-primary'>Sign In</button>	      
 		</div>
-		<div class="divRight">
+		<div class="divMiddle">
 			<input id="productName" type="text" placeholder="Enter an product name..." name="productName">
+		</div>
+		<div class="divRight">
+	  		<button type="button" name="signIn" onclick="" id="showWishList" class='cancelbtn btn btn-primary'>Wish List</button>	      
 		</div>
 		<p id="totalItems"></p>
 	</div>
@@ -43,7 +46,7 @@
 	      <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
 	    </div>	    
 	  </form>
-	</div>
+	</div>	
 
 	<!-- sign-in window -->
 	<div id="id02" class="modal">
@@ -93,6 +96,20 @@
 	    <div class="container" id="cont-1">
 	      <button type="button" onclick="document.getElementById('id03').style.display='none'" class="cancelbtn">Cancel</button>
 	      <button type="button" name="signUp" onclick="showSignIn()" id="registerbtn" class='cancelbtn'>Sign In</button>	      
+	    </div>	    
+	  </form>
+	</div>
+
+	<!-- wishlist details -->
+	<div id="id04" class="modal">
+	  <form class="modal-content animate">
+	    <div class="imgcontainer">
+	      <span onclick="document.getElementById('id04').style.display='none'" class="close" title="Close Modal">&times;</span>
+	    </div>
+	    <div class="container-1" id="wishListItems">	    	      
+	    </div>
+	    <div class="container-1" id="cont-1">
+	      <button type="button" onclick="document.getElementById('id04').style.display='none'" class="cancelbtn">Cancel</button>
 	    </div>	    
 	  </form>
 	</div>

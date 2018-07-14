@@ -199,7 +199,6 @@ $(document).on('click', '.wishBtn', function() {
     data: serializedData,
     success: function (response) {
       console.log("Added to wishlist!");
-      console.log(response);
     },
     error: function(xhr, textStatus, errorThrown){
       console.log(errorThrown);
@@ -235,12 +234,48 @@ $(document).on('click', '#logInBtn', function() {
       console.log(response.username);
       currentUser = response.id;
       $("#random").attr("id", response.id);
+      $("#showWishList").show();
       console.log("User's id: " + currentUser);
       $("#logInFailure").hide();
     },
     error: function(xhr, textStatus, errorThrown){
       $("#logInFailure").show();
        // alert('Username or password is incorrect. Please try again.');
+    },
+    complete: function () {
+      // $('.loader').hide();
+    }             
+  });
+})
+
+$(document).on('click', '#showWishList', function() {
+  $("#id04").show();
+  var currentUserId = $(".random1").attr("id");
+  var serializedData = "uId=" + currentUserId;
+  console.log(serializedData);    
+  $.ajax({  
+    type: 'post',
+    url: '/getWishList',
+    data: serializedData,
+    success: function (response) {
+      
+      // console.log(response);
+      var wishItems = JSON.parse(response);
+      console.log(wishItems.items[0].name);
+      var $target = $("body").find('#wishListItems');
+      console.log($target);        
+
+      for (var i = 0; i < wishItems.items.length; ++i) {
+        var pDescription = document.createElement("p");
+        pDescription.innerHTML = wishItems.items[i].shortDescription;
+        var text = pDescription.textContent || pDescription.innerText || "";
+
+        var info = "<div class='itemSpan3'><h4 class='productH2'>" + wishItems.items[i].name + 
+        "</h4><img class='center' src='" + wishItems.items[i].mediumImage + "'><p>" + text + "<br><br><strong>$" + 
+        wishItems.items[i].salePrice + "</strong><br><br>" + wishItems.items[i].stock + "</p>";
+        $target.append(info + "</div>");
+      }
+      
     },
     complete: function () {
       // $('.loader').hide();
@@ -270,6 +305,7 @@ $(document).on('click', '#signUpBtn', function() {
     success: function (response) {
       $('#id03').hide();
       $('.input1').val('');
+      $("#showWishList").show();
       console.log(response);
     },
     complete: function () {

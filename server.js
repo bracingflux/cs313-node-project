@@ -231,9 +231,41 @@ function modifyPassword(request, response) {
 }
 
 function getWishList(request, response) {
-	var userId = 2;
-	// var userId = request.body.userId;	
-	response.send("This will return success when user's wish list is queried and returned. Here is the username: " + userId);
+	var productIds = "";
+	var userId = parseInt(request.body.uId);
+	console.log("User id: " + userId);
+	var params = [userId];
+	var sql = "SELECT product_id FROM wishlist WHERE user_id = $1::int;";
+	callDatabase(sql, params, function(error, result) {
+		if (error || result == null) {
+			response.status(500).json({success: false, data: error});
+		} 
+		else {
+			console.log(result);
+			for (var i = 0; i < result.rows.length; ++i) {
+				console.log(result.rows[i].product_id);
+				var j = (i + 1);
+				if (j != result.rows.length) {
+					productIds = productIds.concat(result.rows[i].product_id + ",");
+				}
+				else {
+					productIds = productIds.concat(result.rows[i].product_id);
+				}
+			}
+
+			var url  = "http://api.walmartlabs.com/v1/items?ids=" + productIds + "&apiKey=nsgjenyj5zedvuz746ugac4k&lsPublisherId=eliandrew"
+			console.log("url: ", url);
+		    performRequest(url, function(error, result2) {
+		    	if (!error) {
+		    		response.status(200).send(result2);
+		    	}
+		    	else {
+		    		console.log("Failure to retrieve items..");
+					response.status(500).json({success: false, data: error});
+		    	}
+		    })
+		}
+	})
 }
 
 function addToWishList(req, res) {
