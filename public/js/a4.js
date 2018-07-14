@@ -249,17 +249,27 @@ $(document).on('click', '#logInBtn', function() {
 })
 
 $(document).on('click', '#showWishList', function() {
+  $("#wishListItems").empty();
+  var $target1 = $("body").find('#wishListItems');        
+  var info1 = "<div class='itemSpan' style='border: none;'>";
+  for (var j = 0; j < 10; ++j) {
+    var width = Math.floor((Math.random() * 70) + 20);
+    var divLine = "<div class='line' style='width:" + width + "%'></div>";
+    info1 = info1.concat(divLine);
+  }
+  info1 = info1.concat("</div>")
+  $target1.append(info1);
   $("#id04").show();
   var currentUserId = $(".random1").attr("id");
   var serializedData = "uId=" + currentUserId;
-  console.log(serializedData);    
+  console.log(serializedData);
+
   $.ajax({  
     type: 'post',
     url: '/getWishList',
     data: serializedData,
     success: function (response) {
-      
-      // console.log(response);
+      $("#wishListItems").empty();
       var wishItems = JSON.parse(response);
       console.log(wishItems.items[0].name);
       var $target = $("body").find('#wishListItems');
