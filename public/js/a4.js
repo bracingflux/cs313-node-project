@@ -180,6 +180,38 @@ function addItems(url1, isSearch) {
 
 });
 
+$(document).on('click', '.wishBtn', function() {
+  console.log("About to add to wishlst..");
+  var productId = $(this).attr("id");
+  var currentUserId = $('.random1').attr('id');
+  console.log(currentUserId);
+  if (currentUserId == "random") {
+    console.log("User id not set...");
+    // return;
+  }
+
+  var serializedData = "pId=" + productId + "&userId=" + currentUserId;
+  console.log("serializedData: " + serializedData);   
+
+  $.ajax({  
+    type: 'post',
+    url: '/addWishList',
+    data: serializedData,
+    success: function (response) {
+      console.log("Added to wishlist!");
+      console.log(response);
+    },
+    error: function(xhr, textStatus, errorThrown){
+      console.log(errorThrown);
+       // alert('Username or password is incorrect. Please try again.');
+    },
+    complete: function () {
+      // $('.loader').hide();
+      console.log("done!");
+    }             
+  });
+})
+
 $(document).on('click', '#logInBtn', function() {
   // alert("monkey");
   // $("#login_form").preventDefault();
@@ -276,9 +308,9 @@ $(document).on('click', ".detailsBtn", function(){
 
           info = info + "<div class='itemSpan2'><h2 class='productH2'>" + product.name + "</h2><img class='center' src='" + product.mediumImage + "'><p>" + text + "<br><br><strong>$" + 
           product.salePrice + "</strong><br><br>" + product.stock + "</p>";
-          var currentUserId = $('#random').attr('id');
+          var currentUserId = $('.random1').attr('id');
           if (currentUserId != "random") {
-            info = info + "<button class='wishBtn btn btn-primary'>Add to Wish List</button></div>";
+            info = info + "<button type='button' class='wishBtn btn btn-primary' id='" + product.itemId + "'>Add to Wish List</button></div>";
           } 
           else {
             // console.log("Length: " + currentUser.length);

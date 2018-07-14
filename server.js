@@ -50,6 +50,10 @@ app.post("/getWishList", function(req, res) {
 	getWishList(req, res);
 })
 
+app.post("/addWishList", function(req, res) {
+	addToWishList(req, res);
+})
+
 app.post("/signUp", function(req, res) {
 	signUp(req, res);
 })
@@ -230,6 +234,22 @@ function getWishList(request, response) {
 	var userId = 2;
 	// var userId = request.body.userId;	
 	response.send("This will return success when user's wish list is queried and returned. Here is the username: " + userId);
+}
+
+function addToWishList(req, res) {
+	var userId = parseInt(req.body.userId);
+	var productId = parseInt(req.body.pId);
+	var params = [userId, productId];
+	console.log(productId + userId);
+	var sql = "INSERT INTO wishlist (user_id, product_id) VALUES ($1::int, $2::int);";
+	callDatabase(sql, params, function(error, result) {
+		if (error || result == null) {
+			res.status(500).json({success: false, data: error});
+		} 
+		else {
+			res.status(200).json({success: true});
+		}
+	})
 }
 
 function getProductNames(request, response) {
