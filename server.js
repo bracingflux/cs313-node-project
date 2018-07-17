@@ -34,6 +34,16 @@ app.get("/getProduct", function(req, res) {
 	getProduct(req, res);
 })
 
+app.get("/userSession", function(req, res) {
+	if(!req.session.currentUser){
+		res.json({"username": "-1"});
+	}
+	else {
+		console.log(req.session.currentUser + " id: " + req.session.userId);
+		res.json({"username": req.session.currentUser, "userId": req.session.userId});
+	}
+})
+
 app.get("/nextPage", nextprevPage)
 
 app.get("/previousPage", nextprevPage)
@@ -176,7 +186,7 @@ function logIn(request, response) {
 	var password = request.body.psw;
 	console.log("Username: " + username + " Password: " + password);
 	
-	var sql = "SELECT id, username, password FROM users WHERE username = $1::varchar(100)";
+	var sql = "SELECT id, username, display_name, password FROM users WHERE username = $1::varchar(100)";
 
 	var params = [username];
 
@@ -192,6 +202,8 @@ function logIn(request, response) {
 			    }
 			    else {
 			    	if (res == true) {
+			    		request.session.currentUser = result.rows[0].display_name;
+			    		request.session.userId = result.rows[0].id;
 			    		response.status(200).json(result.rows[0]);
 			    	}
 			    	else {
@@ -218,7 +230,10 @@ function signUp(request, response) {
 				response.status(500).json({success: false, data: error});
 			} 
 			else {
-				response.status(200).json({success: true});
+	    		request.session.currentUser = displayName;
+	    		request.session.userId = result.rows[0].id;
+	    		console.log("Newly created id: " + result.rows[0].id);
+				response.status(200).json({"username": username, "userId": result.rows[0].id});
 			}
 		})
 	});	
