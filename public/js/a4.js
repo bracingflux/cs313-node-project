@@ -6,7 +6,6 @@ $(document).ready(function (){
   var queryPrev = "";
   var currentIndex = 0;
   var currentQuery = "";
-  // var currentUser = "";
   var totalRes = 0;
   $('.prevRef').hide();
   $('.nextRef').hide();
@@ -15,13 +14,13 @@ $(document).ready(function (){
       url: "/userSession",              
       type: "get",
       success: function (res) {
-        // var response = JSON.parse(res);
 
         if (res.username.includes("-1")) {
           //no logged in user.
+          user = "";
+          userId = "";
         }
         else {
-          // alert("Hello " + res.username);
           user = res.username;
           usersId = res.userId;
           $("#showWishList").show();
@@ -66,14 +65,12 @@ $(".prevRef").click(function() {
   } else {
     queryPrev = "/previousPage?queryString=" + currentQuery + "&pageIndex=" + 1;
   }
-  // console.log(queryPrev);
   addItems(queryPrev, false);
 })
 
 $(".nextRef").click(function() {
   currentIndex = parseInt(currentIndex) + 20;
   queryNext = "/nextPage?queryString=" + currentQuery + "&pageIndex=" + currentIndex;
-  // console.log("Value: " + queryNext);
   addItems(queryNext, false);
 })
 
@@ -133,9 +130,6 @@ function addItems(url1, isSearch) {
        xhr.addEventListener("progress", function(evt){
          if (evt.lengthComputable) {
            var percentComplete = evt.loaded / evt.total;
-
-         //Do something with download progress
-           console.log(percentComplete);
          }
        }, false);
        return xhr;
@@ -192,7 +186,6 @@ function addItems(url1, isSearch) {
         $target.append(names);
         $target2.append(names2); 
         $target3.append(names3); 
-        // console.log(res.items);
         },
         complete: function () {
            // console.log("Finished..");
@@ -206,78 +199,79 @@ function addItems(url1, isSearch) {
 });
 
 $(document).on('click', '.removeBtn', function() {
-  console.log("About to remove to wishlst..");
   var productId = $(this).attr("id");
-  
-
   var serializedData = "pId=" + productId + "&userId=" + usersId;
-  console.log("serializedData: " + serializedData);   
 
   $.ajax({  
     type: 'post',
     url: '/deleteWishListItem',
     data: serializedData,
     success: function (response) {
-      console.log("Removed from wishlist!");
       $("#i" + productId).hide();
+      $("#i" + productId).remove();
     },
     error: function(xhr, textStatus, errorThrown){
-      console.log(errorThrown);
-       // alert('Username or password is incorrect. Please try again.');
+       console.log('Unsuccesful wish list item removal');
     },
     complete: function () {
       // $('.loader').hide();
-      console.log("done!");
     }             
   });
 })
 
 $(document).on('click', '.wishBtn', function() {
-  console.log("About to add to wishlst..");
   var productId = $(this).attr("id");
-  // var currentUserId = $('.random1').attr('id');
-  // console.log(currentUserId);
-  /*if (currentUserId == "random") {
-    console.log("User id not set...");
-    // return;
-  }*/
-
   var serializedData = "pId=" + productId + "&userId=" + usersId;
-  console.log("serializedData: " + serializedData);   
 
   $.ajax({  
     type: 'post',
     url: '/addWishList',
     data: serializedData,
     success: function (response) {
-      console.log("Added to wishlist!");
       $(".addedItem").fadeToggle();  
-      $(".addedItem").fadeToggle(2500);    
+      $(".addedItem").fadeToggle(1200);    
     },
     error: function(xhr, textStatus, errorThrown){
       console.log(errorThrown);
-       // alert('Username or password is incorrect. Please try again.');
     },
     complete: function () {
-      // $('.loader').hide();
-      console.log("done!");
+      // console.log("done!");
+    }             
+  });
+})
+
+$(document).on('click', '#signOffbtn', function() {
+  if (user.length == 0 && usersId == 0) {
+    return;
+  }
+
+  $.ajax({  
+    type: 'get',
+    url: '/signOut',
+    /*data: serializedData,*/
+    success: function (response) {
+      usersId = "";
+      user = "";
+      $("#showWishList").hide();
+      $("#id02").hide();   
+    },
+    error: function(xhr, textStatus, errorThrown){
+      console.log(errorThrown);
+    },
+    complete: function () {
+      // console.log("done!");
     }             
   });
 })
 
 $(document).on('click', '#logInBtn', function() {
-  // alert("monkey");
-  // $("#login_form").preventDefault();
-  // e.stopImmediatePropagation();
   var verify = verfiyInputs("username1", "password1");
   if (!verify) {
-    console.log("No username or password provided.");
     return;
   }        
   var $form = $("#login_form");
   var $inputs = $form.find("input, select, button, textarea");
   var serializedData = $form.serialize();
-  console.log(serializedData);    
   $.ajax({  
     type: 'post',
     url: '/logIn',
@@ -285,18 +279,13 @@ $(document).on('click', '#logInBtn', function() {
     success: function (response) {
       $('#id02').hide();
       $('.input1').val('');
-      console.log(response.username);
-      // currentUser = response.id;
       user = response.display_name;
       usersId = response.id;
-      // $("#random").attr("id", response.id);
       $("#showWishList").show();
-      // console.log("User's id: " + currentUser);
       $("#logInFailure").hide();
     },
     error: function(xhr, textStatus, errorThrown){
       $("#logInFailure").show();
-       // alert('Username or password is incorrect. Please try again.');
     },
     complete: function () {
       // $('.loader').hide();
@@ -316,9 +305,7 @@ $(document).on('click', '#showWishList', function() {
   info1 = info1.concat("</div>")
   $target1.append(info1);
   $("#id04").show();
-  // var currentUserId = $(".random1").attr("id");
   var serializedData = "uId=" + usersId;
-  console.log(serializedData);
 
   $.ajax({  
     type: 'post',
@@ -327,9 +314,7 @@ $(document).on('click', '#showWishList', function() {
     success: function (response) {
       $("#wishListItems").empty();
       var wishItems = JSON.parse(response);
-      console.log(wishItems.items[0].name);
       var $target = $("body").find('#wishListItems');
-      console.log($target);        
 
       for (var i = 0; i < wishItems.items.length; ++i) {
         var pDescription = document.createElement("p");
@@ -350,33 +335,25 @@ $(document).on('click', '#showWishList', function() {
          },    
 
     complete: function (response) {
-      console.log(response.status);
       if (response.status == 404) {
         $("#wishListItems").empty();
         var $target = $("body").find('#wishListItems');
         $target.append("<h2>No items found.</h2>");
       }
-      // $('.loader').hide();
-      console.log("Finished getting wishlist");
     }             
   });
 })
 
 $(document).on('click', '#signUpBtn', function() {
-  // alert("monkey");
-  // $("#login_form").preventDefault();
-  // e.stopImmediatePropagation();
   var verify = verifyPassword(true); // pass true since we are in sign up form
   var verify2 = verifyDisplayName(true);
   var verify3 = verfiyInputs("username2", "pass1");
   if (!verify || !verify2 || !verify3) {
-    console.log("passwords did not match or no display name...");
     return;
   }        
   var $form = $("#signup_form");
   var $inputs = $form.find("input, select, button, textarea");
   var serializedData = $form.serialize();
-  console.log(serializedData);    
   $.ajax({  
     type: 'post',
     url: '/signUp',
@@ -387,7 +364,6 @@ $(document).on('click', '#signUpBtn', function() {
       $('#id03').hide();
       $('.input1').val('');
       $("#showWishList").show();
-      console.log(response);
     },
     complete: function () {
       // $('.loader').hide();
@@ -415,7 +391,6 @@ $(document).on('click', ".detailsBtn", function(){
       type: "get",
       success: function (res) {
         $("#extendedProductInfo").empty();
-        console.log("success!");
         var $target = $("body").find('#extendedProductInfo');        
         var info = "";
           var product = JSON.parse(res);
@@ -425,14 +400,11 @@ $(document).on('click', ".detailsBtn", function(){
 
           info = info + "<div class='itemSpan2'><h2 class='productH2'>" + product.name + "</h2><img class='center' src='" + product.mediumImage + "'><p>" + text + "<br><br><strong>$" + 
           product.salePrice + "</strong><br><br>" + product.stock + "</p>";
-          // var currentUserId = $('.random1').attr('id');
-          // alert(user + " " + usersId);
           if (user.length > 1) {
             info = info + "<button type='button' class='wishBtn btn btn-primary' id='" + product.itemId + "'>Add to Wish List</button></div><p class='addedItem'>" + 
             product.name.substring(0, 24) + ".. added to wishlist!</p>";
           } 
           else {
-            // console.log("Length: " + currentUser.length);
             info = info + "</div>";
           }
 

@@ -39,7 +39,6 @@ app.get("/userSession", function(req, res) {
 		res.json({"username": "-1"});
 	}
 	else {
-		console.log(req.session.currentUser + " id: " + req.session.userId);
 		res.json({"username": req.session.currentUser, "userId": req.session.userId});
 	}
 })
@@ -72,8 +71,8 @@ app.post("/signUp", function(req, res) {
 	signUp(req, res);
 })
 
-app.put("/modifyPassword", function(req, res) {
-	modifyPassword(req, res);
+app.get("/signOut", function(req, res) {
+	signOut(req, res);
 })
 
 app.listen(app.get("port"), function(){
@@ -84,8 +83,6 @@ app.listen(app.get("port"), function(){
 function nextprevPage(req, res) {
 	var queryString = req.query.queryString;
 	var pageIndex = req.query.pageIndex;
-	// var newIndex = parseInt(pageIndex) + 40;
-	// console.log("Inside server.js: queryString " + queryString + " pageIndex " + newIndex);
     var url = "http://api.walmartlabs.com/v1/search?apiKey=nsgjenyj5zedvuz746ugac4k&lsPublisherId=eliandrew&numItems=21&query=" + queryString + "&start=" + pageIndex;
 
     performRequest(url, function(error, result) {
@@ -188,7 +185,6 @@ function callDatabase(url, params, callback) {
 function logIn(request, response) {
 	var username = request.body.uname;
 	var password = request.body.psw;
-	console.log("Username: " + username + " Password: " + password);
 	
 	var sql = "SELECT id, username, display_name, password FROM users WHERE username = $1::varchar(100)";
 
@@ -202,7 +198,7 @@ function logIn(request, response) {
 			var hash = result.rows[0].password;
 			bcrypt.compare(password, hash, function(err, res) {
 			    if (err) {
-			    	console.log("There was a problem.");
+			    	console.log("There was a problem hashing password.");
 			    }
 			    else {
 			    	if (res == true) {
@@ -223,11 +219,8 @@ function signUp(request, response) {
 	var username = request.body.username;
 	var password = request.body.password;
 	var displayName = request.body.displayName;
-	console.log("Username: " + username + " Password: " + password + " Display name: " + displayName);
 	bcrypt.hash(password, 10, function(err, hash) {
-		console.log("Sign up hashed password: " + hash);
 		var params = [username, hash, displayName];
-		console.log("PARAMS: " + params);
 		var sql = "INSERT INTO users (username, password, display_name) VALUES ($1::varchar(100), $2::varchar(100), $3::varchar(100)) RETURNING id;";
 		callDatabase(sql, params, function(error, result) {
 			if (error || result == null /*|| result.length != 1*/) {
@@ -236,7 +229,6 @@ function signUp(request, response) {
 			else {
 	    		request.session.currentUser = displayName;
 	    		request.session.userId = result.rows[0].id;
-	    		console.log("Newly created id: " + result.rows[0].id);
 				response.status(200).json({"username": username, "userId": result.rows[0].id});
 			}
 		})
@@ -244,15 +236,24 @@ function signUp(request, response) {
 	// response.status(200).send("It was successful!");
 }
 
-function modifyPassword(request, response) {
-	var username = request.body.username;	
-	response.send("This will return successful on updating password. Here is the username: " + username);
+function signOut(request, response) {
+	if (request.session.currentUser && request.session.userId) {
+		request.session.destroy(function(err) {
+			if (err) {
+				console.log("Error signing out user.");
+				console.log(err);
+				response.status(500).send("-1");
+			}
+			else {
+				response.status(200).send("Success");
+			}
+		})
+	}
 }
 
 function getWishList(request, response) {
 	var productIds = "";
 	var userId = parseInt(request.body.uId);
-	console.log("User id: " + userId);
 	var params = [userId];
 	var sql = "SELECT product_id FROM wishlist WHERE user_id = $1::int;";
 	callDatabase(sql, params, function(error, result) {
@@ -260,13 +261,11 @@ function getWishList(request, response) {
 			response.status(500).json({success: false, data: error});
 		} 
 		else {
-			console.log(result);
 			if (result.rowCount == 0) {
 				response.status(404).send("-1");
 				return;
 			}
 			for (var i = 0; i < result.rows.length; ++i) {
-				console.log(result.rows[i].product_id);
 				var j = (i + 1);
 				if (j != result.rows.length) {
 					productIds = productIds.concat(result.rows[i].product_id + ",");
@@ -277,7 +276,6 @@ function getWishList(request, response) {
 			}
 
 			var url  = "http://api.walmartlabs.com/v1/items?ids=" + productIds + "&apiKey=nsgjenyj5zedvuz746ugac4k&lsPublisherId=eliandrew"
-			console.log("url: ", url);
 		    performRequest(url, function(error, result2) {
 		    	if (!error) {
 		    		response.status(200).send(result2);
@@ -295,7 +293,6 @@ function addToWishList(req, res) {
 	var userId = parseInt(req.body.userId);
 	var productId = parseInt(req.body.pId);
 	var params = [userId, productId];
-	console.log(productId + userId);
 	var sql = "INSERT INTO wishlist (user_id, product_id) VALUES ($1::int, $2::int);";
 	callDatabase(sql, params, function(error, result) {
 		if (error || result == null) {

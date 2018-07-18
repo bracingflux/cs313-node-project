@@ -228,6 +228,16 @@ div.footer {
     padding: 16px;
 }
 
+#c1 {
+	float: right;
+	background-color: #4CAF50;
+}
+
+#c2 {
+	float: right;
+	background-color: #4CAF50;
+}
+
 .cancelbtn {
     width: auto;
     padding: 10px 18px;
@@ -239,6 +249,10 @@ div.footer {
     border: none;
     cursor: pointer;
 }
+
+/*.btn-primary:hover {
+	background-color: #00b3db;
+}*/
 
 @media screen and (max-width: 300px) {
     span.psw {
@@ -256,9 +270,21 @@ div.footer {
     margin-left: 2%;     
 }
 
+#signOffbtn:hover {
+	background-color: #004c91;
+}
+
 #registerbtn {
     background-color: #6396ef;
     float: right;    
+}
+
+#registerbtn:hover {
+	background-color: #004c91;
+}
+
+#logInBtn:hover {
+	background-color: #004c91;
 }
 
 .divLeft {
@@ -295,6 +321,14 @@ div.footer {
     /*float: right;    */
 }
 
+#signingIn:hover {
+	background-color: #004c91;
+}
+
+#signUpBtn:hover {
+	background-color: #004c91;
+}
+
 .addedItem {
 	font-family: Verdana;
 	display: none;
@@ -313,6 +347,10 @@ div.footer {
 	background-color: #f47321;
     padding: 8px 12px;
     display: none;
+}
+
+#showWishList:hover {
+	background-color: #004c91;
 }
 
 .removeBtn {

@@ -17,7 +17,7 @@
 
 	<link rel="stylesheet" type="text/css" href="a4.css">
 
-	<title>Products</title>
+	<title>Wal-Mart Products</title>
 </head>
 <body>
 	<div id="walmart-header">
@@ -26,7 +26,7 @@
 	  		<button type="button" name="signIn" onclick="showSignIn()" id="signingIn" class='cancelbtn btn btn-primary'>Sign In</button>	      
 		</div>
 		<div class="divMiddle">
-			<input id="productName" type="text" placeholder="Enter an product name..." name="productName">
+			<input id="productName" type="text" placeholder="Type name then enter..." name="productName">
 		</div>
 		<div class="divRight">
 	  		<button type="button" name="signIn" onclick="" id="showWishList" class='cancelbtn btn btn-primary'>Wish List</button>	      
@@ -43,7 +43,7 @@
 	    <div class="container-1" id="extendedProductInfo">	    	      
 	    </div>
 	    <div class="container-1" id="cont-1">
-	      <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn btn btn-primary">Cancel</button>
+	      <button type="button" onclick="document.getElementById('id01').style.display='none'" id="c1" class="cancelbtn btn btn-primary">Okay</button>
 	    </div>	    
 	  </form>
 	</div>
@@ -60,7 +60,7 @@
 	      <input type="text" class="input1" id="username1" placeholder="Enter Username" name="uname" required>
 	      <label for="psw"><b>Password</b></label>
 	      <input type="password" class="input1" id="password1" placeholder="Enter Password" name="psw" required>	        
-	      <button type="button" class="login" id="logInBtn">Login</button>
+	      <button type="button" class="login btn btn-primary" id="logInBtn">Login</button>
 	      <label class="hidden1" id="logInFailure"><p>Username or password is incorrect. Please try again.</p></label>
 	    </div>
 
@@ -109,7 +109,7 @@
 	    <div class="container-1" id="wishListItems">	    	      
 	    </div>
 	    <div class="container-1" id="cont-1">
-	      <button type="button" onclick="document.getElementById('id04').style.display='none'" class="cancelbtn btn btn-primary">Cancel</button>
+	      <button type="button" onclick="document.getElementById('id04').style.display='none'" id="c2" class="cancelbtn btn btn-primary">Okay</button>
 	    </div>	    
 	  </form>
 	</div>
@@ -130,7 +130,6 @@
 		<li><a id="extraNext"class="nextRef">Next</a></li>
 		</ul>
 	</div>
-	<div id="random" class="random1"></div>
 	<div class="footer">
 		<p>This content has been provided courtesy of walmart.com via their free api.</p>
 	</div>
