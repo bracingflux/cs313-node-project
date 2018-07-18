@@ -303,6 +303,11 @@ div.footer {
     display: none;
 }
 
+.removeBtn {
+	background-color: #f44336;
+	border: none;
+}
+
 .imgcontainer {
     text-align: center;
     margin: 24px 0 12px 0;

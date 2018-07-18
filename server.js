@@ -64,6 +64,10 @@ app.post("/addWishList", function(req, res) {
 	addToWishList(req, res);
 })
 
+app.post("/deleteWishListItem", function(req, res) {
+	deleteWishItem(req, res);
+})
+
 app.post("/signUp", function(req, res) {
 	signUp(req, res);
 })
@@ -224,7 +228,7 @@ function signUp(request, response) {
 		console.log("Sign up hashed password: " + hash);
 		var params = [username, hash, displayName];
 		console.log("PARAMS: " + params);
-		var sql = "INSERT INTO users (username, password, display_name) VALUES ($1::varchar(100), $2::varchar(100), $3::varchar(100));";
+		var sql = "INSERT INTO users (username, password, display_name) VALUES ($1::varchar(100), $2::varchar(100), $3::varchar(100)) RETURNING id;";
 		callDatabase(sql, params, function(error, result) {
 			if (error || result == null /*|| result.length != 1*/) {
 				response.status(500).json({success: false, data: error});
@@ -257,6 +261,10 @@ function getWishList(request, response) {
 		} 
 		else {
 			console.log(result);
+			if (result.rowCount == 0) {
+				response.status(404).send("-1");
+				return;
+			}
 			for (var i = 0; i < result.rows.length; ++i) {
 				console.log(result.rows[i].product_id);
 				var j = (i + 1);
@@ -289,6 +297,22 @@ function addToWishList(req, res) {
 	var params = [userId, productId];
 	console.log(productId + userId);
 	var sql = "INSERT INTO wishlist (user_id, product_id) VALUES ($1::int, $2::int);";
+	callDatabase(sql, params, function(error, result) {
+		if (error || result == null) {
+			res.status(500).json({success: false, data: error});
+		} 
+		else {
+			res.status(200).json({success: true});
+		}
+	})
+}
+
+function deleteWishItem(req, res) {
+	var productId = parseInt(req.body.pId);
+	var userId = parseInt(req.body.userId);
+	var params = [productId, userId];
+	var sql = "DELETE FROM wishlist WHERE product_id = $1::int AND user_id = $2::int;";
+
 	callDatabase(sql, params, function(error, result) {
 		if (error || result == null) {
 			res.status(500).json({success: false, data: error});
