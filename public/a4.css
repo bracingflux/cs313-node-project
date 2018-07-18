@@ -295,6 +295,18 @@ div.footer {
     /*float: right;    */
 }
 
+.addedItem {
+	font-family: Verdana;
+	display: none;
+	/*width: 100%; */
+	text-align: center;
+	font-size: 1.72em;
+	background-color: #76c043;
+	color: white;
+	border: 2px solid #76c043;
+	border-radius: 25px;
+}
+
 #showWishList {
 	float: right;
 	margin-right: 2%;

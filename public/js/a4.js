@@ -252,7 +252,7 @@ $(document).on('click', '.wishBtn', function() {
     success: function (response) {
       console.log("Added to wishlist!");
       $(".addedItem").fadeToggle();  
-      $(".addedItem").fadeToggle(2000);    
+      $(".addedItem").fadeToggle(2500);    
     },
     error: function(xhr, textStatus, errorThrown){
       console.log(errorThrown);
@@ -428,8 +428,8 @@ $(document).on('click', ".detailsBtn", function(){
           // var currentUserId = $('.random1').attr('id');
           // alert(user + " " + usersId);
           if (user.length > 1) {
-            info = info + "<button type='button' class='wishBtn btn btn-primary' id='" + product.itemId + "'>Add to Wish List</button></div><h3 class='addedItem' style='display: none;'>" + 
-            product.name.substring(0, 24) + ".. added to wishlist!</h3>";
+            info = info + "<button type='button' class='wishBtn btn btn-primary' id='" + product.itemId + "'>Add to Wish List</button></div><p class='addedItem'>" + 
+            product.name.substring(0, 24) + ".. added to wishlist!</p>";
           } 
           else {
             // console.log("Length: " + currentUser.length);
